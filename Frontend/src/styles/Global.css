@@ -1,0 +1,53 @@
+:root {
+  --primary: #97A87A;
+  --secondary: #A8BBA3;
+  --bg-dark: #1f2933;
+  --bg-light: #FCF9EA;
+  --accent: #FFA239;
+  --text-main: #FCF9EA;
+  --text-muted: #A8BBA3;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-dark);
+  color: var(--text-main);
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+/* Buttons only */
+.say-hello {
+  background: var(--bg-light);
+  color: var(--bg-dark);
+}
+
+.about-btn {
+  border: 1px solid rgba(168, 187, 163, 0.5);
+  color: var(--text-main);
+}
+
+/* Social Icons */
+.social-bar {
+  position: fixed;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.social-icon {
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(168, 187, 163, 0.35);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
