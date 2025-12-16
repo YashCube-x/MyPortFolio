@@ -38,7 +38,7 @@ export default function SocialIcons() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="fixed right-8 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-50"
+                className="hidden lg:flex fixed right-8 top-1/2 -translate-y-1/2 flex-col gap-3 z-50"
             >
               <Icon href="https://www.linkedin.com/in/yashcube07/"><FaLinkedinIn /></Icon>
               <Icon href="https://www.instagram.com/itz__me__suyash_?igsh=MWIxbHhsN2N1d3d1eA=="><FaInstagram /></Icon>

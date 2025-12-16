@@ -23,7 +23,7 @@ export default function App() {
       <Navbar />
 
       {/* Main Content - Native Scroll */}
-      <main className="flex-1 ml-[280px]">
+      <main className="flex-1 lg:ml-[280px] pt-16 lg:pt-0">
         
         {/* Sections */}
         <section id="home" className="min-h-screen w-full snap-start">

@@ -37,9 +37,17 @@ body {
   right: 32px;
   top: 50%;
   transform: translateY(-50%);
-  display: flex;
+  display: none;
+  /* Hidden by default on mobile */
   flex-direction: column;
   gap: 16px;
+}
+
+/* Show social bar on larger screens */
+@media (min-width: 1024px) {
+  .social-bar {
+    display: flex;
+  }
 }
 
 .social-icon {

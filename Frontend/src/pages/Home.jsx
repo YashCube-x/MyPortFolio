@@ -17,7 +17,7 @@ export default function Home() {
       <motion.div 
         animate={{ y: [0, -20, 0], opacity: [0.5, 1, 0.5] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-24 right-32 flex gap-4"
+        className="absolute top-24 right-8 lg:right-32 flex gap-4 hidden md:flex"
       >
          <span className="text-white text-xl font-light drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">x</span>
          <span className="text-white text-3xl font-light mt-4 drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]">x</span>
@@ -26,7 +26,7 @@ export default function Home() {
       <motion.div 
         animate={{ y: [0, 20, 0], rotate: 12 }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-32 left-1/4"
+        className="absolute bottom-32 left-1/4 hidden md:block"
       >
         <svg width="40" height="40" viewBox="0 0 100 100" className="stroke-white fill-none drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
             <path d="M20 20 L50 80 L80 20" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
@@ -37,7 +37,7 @@ export default function Home() {
       <motion.div 
         animate={{ y: [0, -30, 0], x: [0, 10, 0] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/3 left-10"
+        className="absolute top-1/3 left-4 lg:left-10 hidden md:block"
       >
          <span className="text-white text-2xl font-light drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">+</span>
       </motion.div>
@@ -45,7 +45,7 @@ export default function Home() {
        <motion.div 
         animate={{ y: [0, 25, 0], x: [0, -10, 0] }}
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-20 right-20"
+        className="absolute bottom-20 right-8 lg:right-20 hidden md:block"
       >
          <span className="text-white text-4xl font-light drop-shadow-[0_0_12px_rgba(255,255,255,0.5)]">.</span>
       </motion.div>
@@ -54,7 +54,7 @@ export default function Home() {
       <motion.div 
         animate={{ y: [0, 15, 0], x: [0, 5, 0] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/4 left-1/3 opacity-80"
+        className="absolute top-1/4 left-1/3 opacity-80 hidden md:block"
       >
          <FaCloud className="text-white text-3xl drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
       </motion.div>
@@ -63,7 +63,7 @@ export default function Home() {
       <motion.div 
         animate={{ y: [0, -15, 0], rotate: [0, 10, 0] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-1/3 right-1/4 opacity-80"
+        className="absolute bottom-1/3 right-1/4 opacity-80 hidden md:block"
       >
          <FaCrown className="text-white text-3xl drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
       </motion.div>
@@ -71,22 +71,22 @@ export default function Home() {
 
       <div className="relative text-center z-10 px-4">
         <Reveal>
-            <p className="tracking-[8px] text-sm font-semibold text-gray-400 mb-4 uppercase">Hello I'm</p>
+            <p className="tracking-[4px] md:tracking-[8px] text-xs md:text-sm font-semibold text-gray-400 mb-4 uppercase">Hello I'm</p>
 
-            <h1 className="text-[80px] md:text-[110px] leading-[0.9] font-bold tracking-tight select-none">
+            <h1 className="text-[48px] sm:text-[60px] md:text-[80px] lg:text-[110px] leading-[0.9] font-bold tracking-tight select-none">
             <span className="text-white">Suyash </span>
             <span className="stroke-text">Prakash</span>
             </h1>
 
-            <div className="mt-8 text-2xl md:text-3xl text-gray-200 font-light flex items-center justify-center gap-1 min-h-[40px]">
+            <div className="mt-6 md:mt-8 text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-200 font-light flex items-center justify-center gap-1 min-h-[32px] md:min-h-[40px] flex-wrap">
                 <span>I am a</span>
                 <span className="font-semibold text-white ml-2 drop-shadow-md">
                     <Typewriter text="Software Developer" delay={100} infinite />
                 </span>
-                <span className="animate-blink w-[2px] h-8 bg-white/80 ml-1 inline-block"></span>
+                <span className="animate-blink w-[2px] h-6 md:h-8 bg-white/80 ml-1 inline-block"></span>
             </div>
 
-            <div className="mt-14 flex flex-col sm:flex-row justify-center gap-6">
+            <div className="mt-10 md:mt-14 flex flex-col sm:flex-row justify-center gap-4 md:gap-6 px-4">
             <button 
                 onClick={() => {
                     const contactSection = document.getElementById('contact');
@@ -94,12 +94,12 @@ export default function Home() {
                         contactSection.scrollIntoView({ behavior: 'smooth' });
                     }
                 }}
-                className="bg-white text-black px-12 py-4 text-xs font-bold tracking-widest rounded-sm hover:scale-105 active:scale-95 transition-all duration-300 uppercase cursor-pointer">
+                className="bg-white text-black px-8 md:px-12 py-3 md:py-4 text-xs font-bold tracking-widest rounded-sm hover:scale-105 active:scale-95 transition-all duration-300 uppercase cursor-pointer">
                 Say Hello
             </button>
             <button 
                 onClick={scrollToAbout} 
-                className="border border-gray-600 text-white px-12 py-4 text-xs font-bold tracking-widest rounded-sm hover:border-white hover:bg-white hover:text-black hover:scale-105 active:scale-95 transition-all duration-300 uppercase cursor-pointer">
+                className="border border-gray-600 text-white px-8 md:px-12 py-3 md:py-4 text-xs font-bold tracking-widest rounded-sm hover:border-white hover:bg-white hover:text-black hover:scale-105 active:scale-95 transition-all duration-300 uppercase cursor-pointer">
                 About Me
             </button>
             </div>

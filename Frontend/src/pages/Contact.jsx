@@ -60,18 +60,18 @@ export default function Contact() {
   };
 
   return (
-    <section className="w-full min-h-screen bg-white text-black font-['Outfit'] py-24">
-      <div className="max-w-6xl mx-auto px-10 mb-20">
-        <div className="text-center mb-16">
+    <section className="w-full min-h-screen bg-white text-black font-['Outfit'] py-16 md:py-24">
+      <div className="max-w-6xl mx-auto px-4 md:px-10 mb-16 md:mb-20">
+        <div className="text-center mb-10 md:mb-16">
           <p className="text-gray-400 text-xs tracking-[4px] uppercase font-bold mb-4">
             Contact Me
           </p>
-          <h2 className="text-5xl font-bold text-[#1f2933]">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1f2933]">
             Let's Start A New Project
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-10 md:gap-16">
 
           {/* Contact Info */}
           <div className="space-y-8">
@@ -172,7 +172,7 @@ export default function Contact() {
       </div>
 
       {/* Map */}
-      <div className="w-full h-[400px] bg-gray-100 overflow-hidden grayscale-[50%]">
+      <div className="w-full h-[250px] md:h-[400px] bg-gray-100 overflow-hidden grayscale-[50%]">
         <iframe
           width="100%"
           height="100%"

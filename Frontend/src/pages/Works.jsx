@@ -131,41 +131,41 @@ export default function Works() {
     <section className="w-full min-h-screen bg-white text-black font-['Outfit'] relative overflow-hidden">
         
         {/* Marquee Header */}
-        <div className="pt-32 pb-20 relative overflow-hidden flex flex-col items-center justify-center gap-2">
+        <div className="pt-20 md:pt-32 pb-12 md:pb-20 relative overflow-hidden flex flex-col items-center justify-center gap-2">
             
-            {/* Top Line - Moves Left - Solid Black */}
-            <div className="absolute top-10 left-0 w-full flex items-center justify-center opacity-10 select-none pointer-events-none whitespace-nowrap">
-                <div className="animate-marquee inline-block text-[80px] md:text-[100px] font-black uppercase text-[#1f2933] w-max">
+            {/* Top Line - Moves Left - Solid Black - Hidden on small screens */}
+            <div className="absolute top-10 left-0 w-full items-center justify-center opacity-10 select-none pointer-events-none whitespace-nowrap hidden md:flex">
+                <div className="animate-marquee inline-block text-[60px] md:text-[80px] lg:text-[100px] font-black uppercase text-[#1f2933] w-max">
                      C++ Programmer * MERN Developer * Problem Solver * C++ Programmer * MERN Developer * Problem Solver *
                 </div>
             </div>
 
-            {/* Bottom Line - Moves Right - Outline */}
-            <div className="absolute top-28 left-0 w-full flex items-center justify-center opacity-10 select-none pointer-events-none whitespace-nowrap">
-                <div className="animate-marquee-reverse inline-block text-[80px] md:text-[100px] font-black uppercase text-transparent stroke-text-black w-max">
+            {/* Bottom Line - Moves Right - Outline - Hidden on small screens */}
+            <div className="absolute top-28 left-0 w-full items-center justify-center opacity-10 select-none pointer-events-none whitespace-nowrap hidden md:flex">
+                <div className="animate-marquee-reverse inline-block text-[60px] md:text-[80px] lg:text-[100px] font-black uppercase text-transparent stroke-text-black w-max">
                      Open For Internships * Let's Work Together * Open For Internships * Let's Work Together *
                 </div>
             </div>
             
-            <div className="relative z-10 text-center mt-8">
+            <div className="relative z-10 text-center mt-4 md:mt-8">
                  <p className="text-gray-400 text-xs tracking-[4px] uppercase font-bold mb-4">Portfolio</p>
-                 <h2 className="text-4xl font-bold text-[#1f2933]">My Projects</h2>
+                 <h2 className="text-3xl md:text-4xl font-bold text-[#1f2933]">My Projects</h2>
             </div>
         </div>
 
         {/* Project List */}
-        <div className="max-w-5xl mx-auto px-10 pb-20">
+        <div className="max-w-5xl mx-auto px-4 md:px-10 pb-12 md:pb-20">
             <div className="border-t border-gray-100">
                 {visibleProjects.map((project) => (
                     <Reveal key={project.id} width="100%">
                          <div 
-                              className="group border-b border-gray-100 py-10 flex flex-col md:flex-row items-center justify-between gap-6 hover:bg-gray-50 transition duration-300 px-6 cursor-pointer relative overflow-visible"
+                              className="group border-b border-gray-100 py-6 md:py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-6 hover:bg-gray-50 transition duration-300 px-4 md:px-6 cursor-pointer relative overflow-visible"
                               onClick={() => setSelectedProject(project)}
                               onMouseEnter={() => setHoveredProject(project)}
                               onMouseLeave={() => setHoveredProject(null)}
                          >
                              
-                             <div className="text-center md:text-left z-10 relative pointer-events-none md:pointer-events-auto">
+                             <div className="text-left z-10 relative pointer-events-none md:pointer-events-auto">
                                  <span className="text-[10px] font-bold tracking-widest text-[#666] uppercase mb-2 block group-hover:text-black transition">{project.category}</span>
                                  <h3 className="text-2xl font-bold text-[#1f2933]">{project.title}</h3>
                                  <p className="text-xs text-gray-500 mt-2 max-w-md">{project.description}</p>
@@ -245,19 +245,19 @@ export default function Works() {
         />
 
         {/* Competitive Profile - Card Section */}
-        <div className="bg-white py-24 border-t border-gray-100">
-             <div className="max-w-6xl mx-auto px-10">
+        <div className="bg-white py-16 md:py-24 border-t border-gray-100">
+             <div className="max-w-6xl mx-auto px-4 md:px-10">
                  <Reveal width="100%">
-                    <div className="text-center mb-16 relative">
+                    <div className="text-center mb-10 md:mb-16 relative">
                         {/* Title Background Box */}
-                        <div className="inline-block px-12 py-4 mb-4">
-                             <h2 className="text-4xl font-bold text-[#1f2933] uppercase tracking-wider">Competitive Profile</h2>
+                        <div className="inline-block px-6 md:px-12 py-4 mb-4">
+                             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1f2933] uppercase tracking-wider">Competitive Profile</h2>
                         </div>
                     </div>
                  </Reveal>
 
                  {/* Cards Grid */}
-                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
                     
                     {/* LeetCode Card */}
                     <ProfileCard 
@@ -290,10 +290,10 @@ export default function Works() {
         </div>
 
         {/* Certifications Section */}
-        <div className="bg-white py-24 border-t border-gray-100">
-             <div className="max-w-5xl mx-auto px-10">
+        <div className="bg-white py-16 md:py-24 border-t border-gray-100">
+             <div className="max-w-5xl mx-auto px-4 md:px-10">
                  <Reveal width="100%">
-                    <h2 className="text-3xl font-serif text-[#1f2933] uppercase tracking-widest mb-16 border-b border-gray-200 pb-4">Certifications</h2>
+                    <h2 className="text-2xl md:text-3xl font-serif text-[#1f2933] uppercase tracking-widest mb-10 md:mb-16 border-b border-gray-200 pb-4">Certifications</h2>
 
                     <div className="border-t border-gray-100">
                         {certifications.map((item) => (
@@ -302,17 +302,17 @@ export default function Works() {
                                     href={item.link}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="group border-b border-gray-100 py-10 flex flex-col md:flex-row items-center justify-between gap-6 hover:bg-gray-50 transition duration-300 px-6 cursor-pointer relative overflow-visible block"
+                                    className="group border-b border-gray-100 py-6 md:py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-6 hover:bg-gray-50 transition duration-300 px-4 md:px-6 cursor-pointer relative overflow-visible block"
                                     onMouseEnter={() => setHoveredCert(item.id)}
                                     onMouseLeave={() => setHoveredCert(null)}
                                >
                                    
-                                   <div className="text-center md:text-left z-10 relative pointer-events-none md:pointer-events-auto flex-1">
-                                       <h3 className="text-2xl font-bold text-[#1f2933] flex items-center gap-3 justify-center md:justify-start">
+                                   <div className="text-left z-10 relative pointer-events-none md:pointer-events-auto flex-1">
+                                       <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-[#1f2933] flex items-center gap-3">
                                             {item.title}
                                             <FaExternalLinkAlt className="text-gray-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity" />
                                        </h3>
-                                       <p className="text-xs text-gray-500 mt-2 max-w-md mx-auto md:mx-0">{item.desc}</p>
+                                       <p className="text-xs text-gray-500 mt-2 max-w-md">{item.desc}</p>
                                    </div>
 
                                    <div className="z-10 relative">
@@ -351,14 +351,14 @@ export default function Works() {
         </div>
 
         {/* Education Section */}
-        <div className="bg-[#f9f9f9] py-24">
-             <div className="max-w-6xl mx-auto px-10 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        <div className="bg-[#f9f9f9] py-16 md:py-24">
+             <div className="max-w-6xl mx-auto px-4 md:px-10 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
                  {/* Left Content */}
                  <div>
                     <Reveal>
                         <p className="text-gray-400 text-xs tracking-[4px] uppercase font-bold mb-4">Academics</p>
-                        <h2 className="text-5xl font-bold text-[#1f2933] mb-6">My Education</h2>
-                        <p className="text-gray-500 mb-12 leading-relaxed">
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1f2933] mb-4 md:mb-6">My Education</h2>
+                        <p className="text-gray-500 mb-8 md:mb-12 leading-relaxed text-sm md:text-base">
                             A consistent academic record with a focus on Computer Science and engineering fundamentals.
                         </p>
 
@@ -385,9 +385,9 @@ export default function Works() {
                     </Reveal>
                  </div>
 
-                 {/* Right Image */}
+                 {/* Right Image - Hidden on mobile */}
                  <Reveal width="100%">
-                     <div className="relative h-[600px] w-full rounded-lg overflow-hidden shadow-xl group">
+                     <div className="relative h-[300px] md:h-[600px] w-full rounded-lg overflow-hidden shadow-xl group hidden md:block">
                          {/* Placeholder for the student image */}
                          <div className="absolute inset-0 bg-gray-200 flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center grayscale group-hover:grayscale-0 transition duration-700">
                          </div>
