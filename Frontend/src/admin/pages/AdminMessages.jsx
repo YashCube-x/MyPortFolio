@@ -66,9 +66,17 @@ export default function AdminMessages() {
                   msg.read ? "border-[#3CC4BD]" : "border-[#EF6C4A]"
                 }`}
               >
-                <button
+                <div
+                  role="button"
+                  tabIndex={0}
                   onClick={() => toggleExpand(msg)}
-                  className="w-full flex items-center justify-between p-4 text-left"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      toggleExpand(msg);
+                    }
+                  }}
+                  className="w-full flex items-center justify-between p-4 text-left cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#2BA8A2]/40 rounded-xl"
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     {!msg.read && <span className="w-2 h-2 rounded-full bg-[#EF6C4A] shrink-0" />}
@@ -85,14 +93,14 @@ export default function AdminMessages() {
                     <button
                       onClick={(e) => toggleRead(msg, e)}
                       title={msg.read ? "Mark unread" : "Mark read"}
-                      className="p-2 text-[#2BA8A2] hover:bg-[#E8F6F5] rounded-full transition"
+                      className="p-2.5 text-[#2BA8A2] hover:bg-[#E8F6F5] rounded-full transition"
                     >
                       {msg.read ? <Mail size={16} /> : <MailOpen size={16} />}
                     </button>
                     <button
                       onClick={(e) => handleDelete(msg._id, e)}
                       title="Delete"
-                      className="p-2 text-[#EF6C4A] hover:bg-[#EF6C4A]/10 rounded-full transition"
+                      className="p-2.5 text-[#EF6C4A] hover:bg-[#EF6C4A]/10 rounded-full transition"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -101,7 +109,7 @@ export default function AdminMessages() {
                       className={`text-[#5F7876] transition-transform ${expanded ? "rotate-180" : ""}`}
                     />
                   </div>
-                </button>
+                </div>
 
                 {expanded && (
                   <div className="px-4 pb-4 border-t border-[#1E8C86]/10 pt-4">

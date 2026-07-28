@@ -7,7 +7,7 @@ export default function ViewToggle({ view, onChange }) {
         type="button"
         onClick={() => onChange("list")}
         aria-label="List view"
-        className={`flex items-center justify-center w-9 h-9 rounded-full transition ${
+        className={`flex items-center justify-center w-10 h-10 rounded-full transition ${
           view === "list"
             ? "bg-[#2BA8A2] text-white shadow-[0_4px_20px_rgba(43,168,162,0.30)]"
             : "text-[#5F7876] hover:bg-[#E8F6F5]"
@@ -19,7 +19,7 @@ export default function ViewToggle({ view, onChange }) {
         type="button"
         onClick={() => onChange("card")}
         aria-label="Card view"
-        className={`flex items-center justify-center w-9 h-9 rounded-full transition ${
+        className={`flex items-center justify-center w-10 h-10 rounded-full transition ${
           view === "card"
             ? "bg-[#2BA8A2] text-white shadow-[0_4px_20px_rgba(43,168,162,0.30)]"
             : "text-[#5F7876] hover:bg-[#E8F6F5]"

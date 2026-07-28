@@ -157,17 +157,17 @@ export default function AdminServices() {
             return (
               <div
                 key={item._id}
-                className="flex items-center justify-between bg-white border-l-[6px] border-[#5DADE2] rounded-xl p-4 shadow-[0_4px_20px_rgba(43,168,162,0.10)]"
+                className="flex items-center justify-between gap-3 bg-white border-l-[6px] border-[#5DADE2] rounded-xl p-4 shadow-[0_4px_20px_rgba(43,168,162,0.10)]"
               >
-                <div className="flex items-center gap-3">
-                  <Icon size={18} className="text-[#3B8FC2]" />
-                  <p className="text-[#1E3B3A] font-bold">{item.title}</p>
+                <div className="flex items-center gap-3 min-w-0 flex-1">
+                  <Icon size={18} className="text-[#3B8FC2] shrink-0" />
+                  <p className="text-[#1E3B3A] font-bold truncate">{item.title}</p>
                 </div>
-                <div className="flex gap-2">
-                  <button onClick={() => openEdit(item)} className="p-2 text-[#2BA8A2] hover:bg-[#E8F6F5] rounded-full transition">
+                <div className="flex gap-1 shrink-0">
+                  <button onClick={() => openEdit(item)} className="p-2.5 text-[#2BA8A2] hover:bg-[#E8F6F5] rounded-full transition">
                     <Pencil size={16} />
                   </button>
-                  <button onClick={() => handleDelete(item._id)} className="p-2 text-[#EF6C4A] hover:bg-[#EF6C4A]/10 rounded-full transition">
+                  <button onClick={() => handleDelete(item._id)} className="p-2.5 text-[#EF6C4A] hover:bg-[#EF6C4A]/10 rounded-full transition">
                     <Trash2 size={16} />
                   </button>
                 </div>
@@ -198,10 +198,10 @@ export default function AdminServices() {
                   ))}
                 </div>
                 <div className="flex gap-2 mt-auto">
-                  <button onClick={() => openEdit(item)} className="p-2 text-[#2BA8A2] hover:bg-[#E8F6F5] rounded-full transition">
+                  <button onClick={() => openEdit(item)} className="p-2.5 text-[#2BA8A2] hover:bg-[#E8F6F5] rounded-full transition">
                     <Pencil size={16} />
                   </button>
-                  <button onClick={() => handleDelete(item._id)} className="p-2 text-[#EF6C4A] hover:bg-[#EF6C4A]/10 rounded-full transition">
+                  <button onClick={() => handleDelete(item._id)} className="p-2.5 text-[#EF6C4A] hover:bg-[#EF6C4A]/10 rounded-full transition">
                     <Trash2 size={16} />
                   </button>
                 </div>

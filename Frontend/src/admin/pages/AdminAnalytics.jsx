@@ -37,14 +37,14 @@ export default function AdminAnalytics() {
     <div>
       <h2 className="text-3xl font-extrabold text-[#1E8C86] mb-8">Analytics</h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-5 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 mb-8">
         <StatCard icon={Eye} label="Total Visits" value={data.totalVisits} accent="#2BA8A2" accentBg="#E8F6F5" />
         <StatCard icon={Users} label="Unique Visitors" value={data.uniqueVisitors} accent="#3B8FC2" accentBg="#E3F1FA" />
         <StatCard icon={MessageSquare} label="Contact Submissions" value={data.totalMessages} accent="#E6B800" accentBg="#FFF8E7" />
         <StatCard icon={MessageSquare} label="Unread Messages" value={data.unreadMessages} accent="#EF6C4A" accentBg="#FDECE7" />
       </div>
 
-      <div className="bg-white border-2 border-[#2BA8A2]/20 rounded-2xl p-6 shadow-[0_4px_20px_rgba(43,168,162,0.10)] mb-6">
+      <div className="bg-white border-2 border-[#2BA8A2]/20 rounded-2xl p-6 shadow-[0_4px_20px_rgba(43,168,162,0.10)] mb-6 overflow-x-hidden">
         <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
           <h3 className="text-[#1E8C86] font-extrabold text-sm">Visits Trend</h3>
           <div className="flex items-center gap-1 bg-[#EFF8F7] rounded-full p-1">
