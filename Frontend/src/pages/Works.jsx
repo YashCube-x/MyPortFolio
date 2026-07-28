@@ -28,7 +28,7 @@ export default function Works() {
   const visibleProjects = showAll ? projects : projects.slice(0, 3);
 
   return (
-    <section className="w-full min-h-screen bg-[#F5F1E8] text-[#17150F] font-['Outfit'] relative overflow-hidden">
+    <section className="w-full min-h-[100dvh] bg-[#F5F1E8] text-[#17150F] font-['Outfit'] relative overflow-hidden">
 
       {/* Grain */}
       <div className="absolute inset-0 bg-[radial-gradient(#00000008_1px,transparent_1px)] [background-size:22px_22px] opacity-40 pointer-events-none" />

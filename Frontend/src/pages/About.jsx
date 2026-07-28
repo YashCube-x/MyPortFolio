@@ -28,7 +28,7 @@ export default function About() {
   ];
 
   return (
-    <section className="w-full min-h-screen bg-[#F5F1E8] text-[#17150F] flex items-center justify-center py-20 md:py-28 px-4 md:px-10 font-['Outfit'] relative overflow-hidden">
+    <section className="w-full min-h-[100dvh] bg-[#F5F1E8] text-[#17150F] flex items-center justify-center py-20 md:py-28 px-4 md:px-10 font-['Outfit'] relative overflow-hidden">
       {/* Soft corner glow */}
       <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-[#D4AF6A]/[0.12] blur-[120px] rounded-full pointer-events-none" />
 

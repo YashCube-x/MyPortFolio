@@ -13,12 +13,12 @@ export default function ProjectModal({ isOpen, onClose, project }) {
       ></div>
 
       {/* Modal Content */}
-      <div className="relative bg-[#12100D] border border-white/[0.08] w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-xl shadow-2xl animate-fade-in-scale">
+      <div className="relative bg-[#12100D] border border-white/[0.08] w-full max-w-5xl max-h-[90dvh] overflow-y-auto rounded-xl shadow-2xl animate-fade-in-scale">
 
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 w-10 h-10 bg-[#0C0B09]/80 border border-white/10 rounded-full flex items-center justify-center text-[#9C958A] hover:text-[#0C0B09] hover:bg-[#D4AF6A] hover:border-[#D4AF6A] transition"
+          className="absolute top-4 right-4 z-10 w-11 h-11 bg-[#0C0B09]/80 border border-white/10 rounded-full flex items-center justify-center text-[#9C958A] hover:text-[#0C0B09] hover:bg-[#D4AF6A] hover:border-[#D4AF6A] transition"
           aria-label="Close"
         >
           <X size={20} />

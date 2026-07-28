@@ -16,7 +16,7 @@ export function Kicker({ children, className = "", tone = "dark" }) {
 export function Title({ children, className = "", delay = 0, tone = "dark" }) {
   const text = tone === "light" ? "text-[#17150F]" : "text-[#F4EFE6]";
   return (
-    <h2 className={`font-['Fraunces'] font-semibold text-3xl md:text-5xl lg:text-6xl leading-[1.05] ${text} ${className}`}>
+    <h2 className={`font-['Fraunces'] font-semibold text-[length:var(--fluid-display)] leading-[1.05] ${text} ${className}`}>
       <SplitText delay={delay}>{children}</SplitText>
     </h2>
   );

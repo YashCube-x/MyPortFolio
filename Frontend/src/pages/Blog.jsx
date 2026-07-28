@@ -5,7 +5,7 @@ import { scrollToId } from "../lib/scrollTo";
 
 export default function Blog() {
   return (
-    <section className="w-full min-h-screen bg-[#0C0B09] text-[#F4EFE6] font-['Outfit'] flex items-center justify-center relative overflow-hidden">
+    <section className="w-full min-h-[100dvh] bg-[#0C0B09] text-[#F4EFE6] font-['Outfit'] flex items-center justify-center relative overflow-hidden">
 
       {/* Background Decoration */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">

@@ -30,7 +30,7 @@ export default function AdminLayout() {
   };
 
   return (
-    <div className="w-full min-h-screen flex bg-[#EFF8F7] font-sans">
+    <div className="w-full min-h-[100dvh] flex bg-[#EFF8F7] font-sans">
       <aside className="w-64 shrink-0 bg-white border-r-2 border-[#1E8C86]/10 p-6 flex flex-col">
         <div className="flex items-center gap-1 mb-10">
           <h1 className="text-xl font-extrabold text-[#1E8C86]">Suyash</h1>
@@ -71,7 +71,7 @@ export default function AdminLayout() {
         </button>
       </aside>
 
-      <main className="flex-1 p-8 md:p-10 overflow-y-auto max-h-screen">
+      <main className="flex-1 p-8 md:p-10 overflow-y-auto max-h-[100dvh]">
         <Outlet />
       </main>
     </div>

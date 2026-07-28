@@ -69,7 +69,7 @@ export default function NotFound() {
   return (
     <div
       onMouseMove={onMouseMove}
-      className="relative w-full min-h-screen bg-[#0C0B09] text-[#F4EFE6] font-['Outfit'] overflow-hidden flex flex-col items-center justify-center px-6"
+      className="relative w-full min-h-[100dvh] bg-[#0C0B09] text-[#F4EFE6] font-['Outfit'] overflow-hidden flex flex-col items-center justify-center px-6"
     >
       {/* Trailing gold orb */}
       <motion.div
@@ -97,7 +97,7 @@ export default function NotFound() {
           initial={{ opacity: 0, y: 60, filter: "blur(12px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-          className="font-['Fraunces'] font-semibold leading-none select-none text-[120px] sm:text-[180px] md:text-[240px] lg:text-[300px]"
+          className="font-['Fraunces'] font-semibold leading-none select-none text-[length:var(--fluid-404)]"
         >
           <Digit mx={smx} my={smy} depth={1.6}><span className="text-[#F4EFE6]">4</span></Digit>
           <Digit mx={smx} my={smy} depth={3}><span className="stroke-text italic">0</span></Digit>

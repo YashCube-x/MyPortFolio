@@ -40,27 +40,27 @@ export default function App() {
       <main className="pt-16 lg:pt-20">
 
         {/* Sections */}
-        <section id="home" className="min-h-screen w-full">
+        <section id="home" className="min-h-[100dvh] w-full">
             <Home />
         </section>
 
-        <section id="about" className="min-h-screen w-full">
+        <section id="about" className="min-h-[100dvh] w-full">
             <About />
         </section>
 
-        <section id="works" className="min-h-screen w-full">
+        <section id="works" className="min-h-[100dvh] w-full">
             <Works />
         </section>
 
-        <section id="service" className="min-h-screen w-full">
+        <section id="service" className="min-h-[100dvh] w-full">
             <Services />
         </section>
 
-        <section id="contact" className="min-h-screen w-full">
+        <section id="contact" className="min-h-[100dvh] w-full">
             <Contact />
         </section>
 
-        <section id="blog" className="min-h-screen w-full">
+        <section id="blog" className="min-h-[100dvh] w-full">
             <Blog />
         </section>
 

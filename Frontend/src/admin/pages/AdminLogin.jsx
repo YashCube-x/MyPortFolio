@@ -27,7 +27,7 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center bg-[#EFF8F7] px-4 font-sans">
+    <div className="w-full min-h-[100dvh] flex items-center justify-center bg-[#EFF8F7] px-4 font-sans">
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-sm bg-white border-2 border-[#1E8C86]/15 rounded-2xl p-8 shadow-[0_4px_20px_rgba(43,168,162,0.10)]"

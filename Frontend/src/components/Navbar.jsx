@@ -94,7 +94,7 @@ export default function Navbar() {
         </div>
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="text-[#F4EFE6] p-2 hover:bg-white/5 rounded-lg transition"
+          className="text-[#F4EFE6] p-2.5 hover:bg-white/5 rounded-lg transition"
           aria-label="Toggle menu"
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -120,7 +120,7 @@ export default function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="lg:hidden fixed top-16 left-0 h-[calc(100vh-64px)] w-[300px] bg-[#0C0B09]/95 backdrop-blur-xl border-r border-white/[0.06] px-8 py-10 z-50 overflow-y-auto"
+              className="lg:hidden fixed top-16 left-0 h-[calc(100dvh-64px)] w-[300px] max-w-[85vw] bg-[#0C0B09]/95 backdrop-blur-xl border-r border-white/[0.06] px-8 py-10 z-50 overflow-y-auto"
             >
               {/* Menu Items */}
               <ul className="space-y-2">
@@ -233,7 +233,7 @@ export default function Navbar() {
               className="w-full h-auto rounded-lg shadow-2xl border border-white/10"
             />
             <button
-              className="absolute top-4 right-4 bg-[#0C0B09]/80 text-[#F4EFE6] w-10 h-10 rounded-full flex items-center justify-center hover:bg-[#D4AF6A] hover:text-[#0C0B09] transition border border-white/10"
+              className="absolute top-4 right-4 bg-[#0C0B09]/80 text-[#F4EFE6] w-11 h-11 rounded-full flex items-center justify-center hover:bg-[#D4AF6A] hover:text-[#0C0B09] transition border border-white/10"
               onClick={() => setShowImageModal(false)}
             >
               <X size={18} />

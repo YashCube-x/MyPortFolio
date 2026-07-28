@@ -30,7 +30,7 @@ export default function Home() {
   };
 
   return (
-    <div className="w-full min-h-screen relative overflow-hidden bg-[#0C0B09]">
+    <div className="w-full min-h-[100dvh] relative overflow-hidden bg-[#0C0B09]">
       {/* Ambient color glow - crossfades per expression, spans the whole hero */}
       <motion.div
         animate={{ backgroundColor: GLOW_PRIMARY[active] }}
@@ -53,8 +53,8 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="relative z-10 w-full min-h-screen px-4 md:px-10">
-        <div className="max-w-6xl mx-auto w-full min-h-screen flex flex-col lg:flex-row items-stretch">
+      <div className="relative z-10 w-full min-h-[100dvh] px-4 md:px-10">
+        <div className="max-w-6xl mx-auto w-full min-h-[100dvh] flex flex-col lg:flex-row items-stretch">
           {/* Text side */}
           <div className="flex-1 flex flex-col justify-center py-24 lg:py-0">
             <motion.p
@@ -66,7 +66,7 @@ export default function Home() {
               Hello, I'm
             </motion.p>
 
-            <h1 className="font-['Fraunces'] text-[56px] sm:text-[72px] md:text-[88px] lg:text-[100px] leading-[0.98] font-semibold tracking-tight select-none">
+            <h1 className="font-['Fraunces'] text-[length:var(--fluid-hero)] leading-[0.98] font-semibold tracking-tight select-none">
               <SplitText delay={0.2} className="text-[#F4EFE6]">Suyash</SplitText>
               <br />
               <SplitText delay={0.45} className="stroke-text italic">Prakash</SplitText>
@@ -135,7 +135,7 @@ export default function Home() {
 
           {/* Portrait side - hover/move to swap expression */}
           <div
-            className="relative flex-1 lg:flex-[1.2] min-h-[62vh] lg:min-h-screen overflow-visible cursor-pointer select-none"
+            className="relative flex-1 lg:flex-[1.2] min-h-[62dvh] lg:min-h-[100dvh] overflow-visible cursor-pointer select-none"
             onMouseMove={handlePointerMove}
             onMouseLeave={() => setActive(0)}
             data-cursor-label="MOVE"

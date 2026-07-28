@@ -114,16 +114,23 @@ export default function CertificateCarousel({ items }) {
             <ChevronLeft size={30} />
           </button>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center">
             {items.map((_, i) => (
+              // Padded hit area keeps the touch target near 44px while the
+              // visible dot stays small — see responsive-design skill,
+              // "Touch Targets: Maintain 44x44px minimum on mobile".
               <button
                 key={i}
                 onClick={() => goTo(i)}
                 aria-label={`Go to certificate ${i + 1}`}
-                className={`h-3 rounded-full transition-all duration-300 cursor-pointer ${
-                  i === index ? "w-[42px] bg-[#A9832F]" : "w-3 bg-black/15 hover:bg-black/30"
-                }`}
-              />
+                className="p-2.5 cursor-pointer"
+              >
+                <span
+                  className={`block h-3 rounded-full transition-all duration-300 ${
+                    i === index ? "w-[42px] bg-[#A9832F]" : "w-3 bg-black/15 hover:bg-black/30"
+                  }`}
+                />
+              </button>
             ))}
           </div>
 

@@ -54,7 +54,7 @@ export default function Preloader({ onComplete }) {
         <p className="font-['JetBrains_Mono'] text-[10px] md:text-xs tracking-[0.5em] text-[#D4AF6A] mb-6 uppercase">
           Portfolio
         </p>
-        <h1 className="font-['Fraunces'] font-semibold text-6xl md:text-8xl lg:text-9xl tracking-tight flex overflow-hidden">
+        <h1 className="font-['Fraunces'] font-semibold text-[length:var(--fluid-preloader)] tracking-tight flex overflow-hidden">
           {NAME.split("").map((char, i) => (
             <motion.span
               key={i}

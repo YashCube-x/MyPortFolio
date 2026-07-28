@@ -20,6 +20,31 @@ html {
   background-color: #0C0B09;
 }
 
+/*
+  Fluid type scale — clamp(min, viewport-based preferred, max)
+  Used on the most extreme display headings (hero name, section
+  titles, preloader, 404) so they scale smoothly between breakpoints
+  instead of jumping. See responsive-design skill: fluid typography.
+*/
+:root {
+  --fluid-hero: clamp(3rem, 1.85rem + 4.9vw, 6.25rem);
+  --fluid-display: clamp(1.875rem, 1.215rem + 2.82vw, 3.75rem);
+  --fluid-preloader: clamp(3.75rem, 2.26rem + 6.38vw, 8rem);
+  --fluid-404: clamp(7.5rem, 3.54rem + 16.9vw, 18.75rem);
+}
+
+/* Respect the user's motion preference — kills CSS animation/transition
+   duration site-wide. Framer Motion / Lenis JS animations are handled
+   separately via useReducedMotion() where present. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 html.lenis,
 html.lenis body {
   height: auto;
