@@ -1,40 +1,55 @@
-import { FaHeart } from "react-icons/fa";
+import { Heart, ArrowUp } from "lucide-react";
+import Magnetic from "../components/Magnetic";
+import SplitText from "../components/SplitText";
+import { scrollToId } from "../lib/scrollTo";
 
 export default function Blog() {
-  const scrollToHome = () => {
-    document.getElementById("home")?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
-    <section className="w-full min-h-screen bg-[#15171E] text-white font-['Outfit'] flex items-center justify-center relative overflow-hidden">
-        
-        {/* Background Decoration */}
-        <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20">
-             <div className="absolute top-[-10%] right-[-5%] w-48 md:w-96 h-48 md:h-96 rounded-full bg-blue-900 blur-[100px]"></div>
-             <div className="absolute bottom-[-10%] left-[-5%] w-48 md:w-96 h-48 md:h-96 rounded-full bg-purple-900 blur-[100px]"></div>
+    <section className="w-full min-h-screen bg-[#0C0B09] text-[#F4EFE6] font-['Outfit'] flex items-center justify-center relative overflow-hidden">
+
+      {/* Background Decoration */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+        <div className="absolute top-[-10%] right-[-5%] w-48 md:w-[500px] h-48 md:h-[500px] rounded-full bg-[#D4AF6A]/[0.06] blur-[120px]"></div>
+        <div className="absolute bottom-[-10%] left-[-5%] w-48 md:w-[500px] h-48 md:h-[500px] rounded-full bg-[#A9832F]/[0.05] blur-[120px]"></div>
+      </div>
+
+      {/* Grain */}
+      <div className="absolute inset-0 bg-[radial-gradient(#ffffff06_1px,transparent_1px)] [background-size:22px_22px] opacity-30 pointer-events-none" />
+
+      <div className="text-center max-w-2xl px-4 md:px-10 relative z-10">
+
+        <div className="text-[#D4AF6A] mb-8 md:mb-10 flex justify-center animate-heartbeat drop-shadow-[0_0_20px_rgba(212,175,106,0.4)]">
+          <Heart size={52} strokeWidth={1.2} fill="currentColor" />
         </div>
 
-        <div className="text-center max-w-2xl px-4 md:px-10 relative z-10 animate-fade-in-scale">
-            
-            <div className="text-red-500 text-4xl md:text-6xl mb-6 md:mb-8 flex justify-center animate-heartbeat">
-                <FaHeart />
-            </div>
+        <h1 className="font-['Fraunces'] font-semibold text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-6 leading-tight">
+          <SplitText>Thank You</SplitText>
+          <br />
+          <span className="stroke-ghost italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+            <SplitText delay={0.3}>For Visiting My Website!</SplitText>
+          </span>
+        </h1>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 md:mb-6 leading-tight">
-                Thank You <br />
-                <span className="text-gray-500 text-xl sm:text-2xl md:text-3xl lg:text-5xl">For Visiting My Website!</span>
-            </h1>
+        <p className="text-[#9C958A] text-sm md:text-lg leading-relaxed mb-10 md:mb-14">
+          I truly appreciate you stopping by. <br />
+          The blog section is currently cooking up some great content. <br />
+          Stay tuned for updates on Web Development &amp; AI!
+        </p>
 
-            <p className="text-gray-400 text-sm md:text-lg leading-relaxed mb-8 md:mb-12">
-                I truly appreciate you stopping by. <br />
-                The blog section is currently cooking up some great content. <br />
-                Stay tuned for updates on Web Development & AI!
-            </p>
+        <Magnetic strength={0.3}>
+          <button
+            onClick={() => scrollToId("home")}
+            className="group inline-flex items-center gap-2.5 border border-[#D4AF6A]/40 text-[#D4AF6A] px-8 md:px-11 py-4 text-xs font-bold tracking-[0.2em] uppercase rounded-sm hover:bg-[#D4AF6A] hover:text-[#0C0B09] transition-colors duration-300 cursor-pointer"
+          >
+            <ArrowUp size={14} className="transition-transform duration-300 group-hover:-translate-y-1" />
+            Back To Home
+          </button>
+        </Magnetic>
 
-            <button onClick={scrollToHome} className="inline-block border border-white px-6 md:px-10 py-3 md:py-4 text-xs font-bold tracking-widest uppercase rounded-sm hover:bg-white hover:text-black transition duration-300 cursor-pointer">
-                Back To Home
-            </button>
-        </div>
+        <p className="mt-14 font-['JetBrains_Mono'] text-[10px] tracking-[0.35em] uppercase text-[#6B655C]">
+          © {new Date().getFullYear()} Suyash Prakash — Crafted with care
+        </p>
+      </div>
 
     </section>
   );

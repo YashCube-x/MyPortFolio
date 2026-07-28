@@ -7,19 +7,57 @@ const projectSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    category: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    type: {
+      type: String,
+      trim: true,
+    },
+    client: {
+      type: String,
+      trim: true,
+      default: "Personal Project",
+    },
+    duration: {
+      type: String,
+      trim: true,
+    },
+    task: {
+      type: String,
+      trim: true,
+    },
+    budget: {
+      type: String,
+      trim: true,
+    },
     description: {
       type: String,
       required: true,
     },
-    techStack: {
-      type: [String],
-      required: true,
-    },
-    githubLink: {
+    github: {
       type: String,
+      trim: true,
+      default: "#",
     },
-    liveLink: {
+    demo: {
       type: String,
+      trim: true,
+      default: "#",
+    },
+    image: {
+      type: String,
+      default: "",
+    },
+    imagePublicId: {
+      type: String,
+      default: "",
+    },
+    order: {
+      type: Number,
+      default: 0,
     },
   },
   {
@@ -28,5 +66,4 @@ const projectSchema = new mongoose.Schema(
 );
 
 const Project = mongoose.model("Project", projectSchema);
-
 export default Project;

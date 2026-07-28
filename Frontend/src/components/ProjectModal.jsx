@@ -1,5 +1,5 @@
-import { IoMdClose } from "react-icons/io";
-import { FaFacebookF, FaLinkedinIn, FaGoogle, FaTwitter } from "react-icons/fa";
+import { X, ArrowUpRight } from "lucide-react";
+import { FaGithub, FaLinkedinIn, FaXTwitter, FaFacebookF } from "react-icons/fa6";
 
 export default function ProjectModal({ isOpen, onClose, project }) {
   if (!isOpen || !project) return null;
@@ -7,99 +7,107 @@ export default function ProjectModal({ isOpen, onClose, project }) {
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+      <div
+        className="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       ></div>
 
       {/* Modal Content */}
-      <div className="relative bg-white w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-xl shadow-2xl animate-in fade-in zoom-in duration-300">
-        
+      <div className="relative bg-[#12100D] border border-white/[0.08] w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-xl shadow-2xl animate-fade-in-scale">
+
         {/* Close Button */}
-        <button 
+        <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 w-10 h-10 bg-white rounded-full flex items-center justify-center text-gray-500 hover:text-black hover:bg-gray-100 transition shadow-sm"
+          className="absolute top-4 right-4 z-10 w-10 h-10 bg-[#0C0B09]/80 border border-white/10 rounded-full flex items-center justify-center text-[#9C958A] hover:text-[#0C0B09] hover:bg-[#D4AF6A] hover:border-[#D4AF6A] transition"
+          aria-label="Close"
         >
-          <IoMdClose size={24} />
+          <X size={20} />
         </button>
 
         <div className="p-8 md:p-12">
-            {/* Image Placeholder - Matching the purple 'brain' aesthetic */}
-            <div className="w-full h-[400px] bg-gradient-to-br from-[#2b2175] to-[#120d31] rounded-2xl mb-12 flex items-center justify-center relative overflow-hidden group">
-               {/* Abstract rings/glow effect simulation */}
-               <div className="absolute inset-0 opacity-50">
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 border-[4px] border-orange-400/30 rounded-[100%] rotate-x-[70deg] group-hover:scale-110 transition duration-700"></div>
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] w-72 h-72 border-[4px] border-orange-400/50 rounded-[100%] rotate-x-[70deg] delay-75 group-hover:scale-110 transition duration-700"></div>
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] w-56 h-56 border-[4px] border-orange-400/50 rounded-[100%] rotate-x-[70deg] delay-100 group-hover:scale-110 transition duration-700"></div>
-               </div>
-               <span className="text-white/20 text-4xl font-bold uppercase tracking-widest">{project.title}</span>
+          {/* Project image header */}
+          <div className="w-full h-[300px] md:h-[400px] bg-gradient-to-br from-[#1A1713] to-[#0C0B09] border border-white/[0.05] rounded-2xl mb-10 flex items-center justify-center relative overflow-hidden group">
+            {/* Gold ring glow */}
+            <div className="absolute inset-0 opacity-60">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 border border-[#D4AF6A]/20 rounded-full group-hover:scale-110 transition duration-700"></div>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 border border-[#D4AF6A]/10 rounded-full group-hover:scale-110 transition duration-700 delay-75"></div>
             </div>
+            <img
+              src={project.image}
+              alt={project.title}
+              className="relative z-10 max-h-[85%] max-w-[90%] object-contain drop-shadow-2xl group-hover:scale-[1.03] transition duration-700"
+            />
+          </div>
 
-            <div className="flex flex-col lg:flex-row gap-12">
-                {/* Left Column - Text */}
-                <div className="flex-1">
-                    <h2 className="text-3xl font-bold text-[#1f2933] mb-6">{project.title}</h2>
-                    <div className="prose text-gray-500 leading-relaxed mb-8 space-y-4">
-                        <p>
-                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                        </p>
-                        <p>
-                             Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </p>
-                    </div>
-                    
-                    <div className="flex items-center gap-4 mt-8 pt-8 border-t border-gray-100">
-                        <span className="text-sm font-bold text-[#1f2933]">Tags :</span>
-                        <div className="flex gap-3 text-sm text-gray-500">
-                             <span>Web Design</span>
-                             <span>Social Media</span>
-                             <span>Product</span>
-                        </div>
-                    </div>
+          <div className="flex flex-col lg:flex-row gap-10 lg:gap-12">
+            {/* Left Column - Text */}
+            <div className="flex-1">
+              <p className="font-['JetBrains_Mono'] text-[10px] font-bold tracking-[0.25em] text-[#D4AF6A] uppercase mb-3">
+                {project.category}
+              </p>
+              <h2 className="font-['Fraunces'] text-3xl md:text-4xl font-semibold text-[#F4EFE6] mb-6">{project.title}</h2>
+              <p className="text-[#9C958A] leading-relaxed mb-8 text-sm md:text-base">
+                {project.description}
+              </p>
+
+              <div className="flex items-center gap-4 mt-8 pt-8 border-t border-white/[0.06]">
+                <span className="font-['JetBrains_Mono'] text-[10px] tracking-[0.25em] uppercase text-[#6B655C]">Stack :</span>
+                <div className="flex gap-3 text-sm text-[#D4AF6A]">
+                  <span>{project.type}</span>
                 </div>
-
-                {/* Right Column - Project Info Card */}
-                <div className="w-full lg:w-80 bg-[#f7f9fc] rounded-xl p-8 h-fit">
-                    <div className="space-y-6 text-sm">
-                        <div className="grid grid-cols-[100px_1fr] gap-2">
-                            <span className="font-bold text-[#1f2933]">Project Type :</span>
-                            <span className="text-gray-500">{project.type}</span>
-                        </div>
-                        <div className="grid grid-cols-[100px_1fr] gap-2">
-                            <span className="font-bold text-[#1f2933]">Client :</span>
-                            <span className="text-gray-500">{project.client}</span>
-                        </div>
-                        <div className="grid grid-cols-[100px_1fr] gap-2">
-                            <span className="font-bold text-[#1f2933]">Duration :</span>
-                            <span className="text-gray-500">{project.duration}</span>
-                        </div>
-                        <div className="grid grid-cols-[100px_1fr] gap-2">
-                            <span className="font-bold text-[#1f2933]">Task :</span>
-                            <span className="text-gray-500">{project.task}</span>
-                        </div>
-                        <div className="grid grid-cols-[100px_1fr] gap-2">
-                            <span className="font-bold text-[#1f2933]">Budget :</span>
-                            <span className="text-gray-500">{project.budget}</span>
-                        </div>
-                    </div>
-
-                    <button className="mt-8 bg-[#1f252b] text-white px-8 py-3 text-xs font-bold tracking-widest uppercase rounded-sm hover:opacity-90 w-fit">
-                        View Live
-                    </button>
-                </div>
+              </div>
             </div>
 
-            {/* Footer - Share */}
-            <div className="flex items-center justify-end gap-3 mt-4">
-                 <span className="text-sm font-bold text-[#1f2933]">Share this product :</span>
-                 <FaFacebookF className="cursor-pointer hover:text-blue-600 transition" />
-                 <FaTwitter className="cursor-pointer hover:text-sky-500 transition" />
-                 <FaGoogle className="cursor-pointer hover:text-red-500 transition" />
-                 <FaLinkedinIn className="cursor-pointer hover:text-blue-700 transition" />
+            {/* Right Column - Project Info Card */}
+            <div className="w-full lg:w-80 bg-white/[0.03] border border-white/[0.06] rounded-xl p-8 h-fit">
+              <div className="space-y-5 text-sm">
+                <InfoRow label="Type" value={project.type} />
+                <InfoRow label="Client" value={project.client} />
+                <InfoRow label="Duration" value={project.duration} />
+                <InfoRow label="Task" value={project.task} />
+                <InfoRow label="License" value={project.budget} />
+              </div>
+
+              <div className="flex gap-3 mt-8">
+                <a
+                  href={project.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 flex items-center justify-center gap-2 bg-[#D4AF6A] text-[#0C0B09] px-5 py-3 text-[11px] font-bold tracking-[0.15em] uppercase rounded-sm hover:bg-[#EBCB8B] transition"
+                >
+                  Live <ArrowUpRight size={13} />
+                </a>
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 flex items-center justify-center gap-2 border border-[#D4AF6A]/40 text-[#D4AF6A] px-5 py-3 text-[11px] font-bold tracking-[0.15em] uppercase rounded-sm hover:bg-[#D4AF6A] hover:text-[#0C0B09] transition"
+                >
+                  Code <FaGithub size={13} />
+                </a>
+              </div>
             </div>
+          </div>
+
+          {/* Footer - Share */}
+          <div className="flex items-center justify-end gap-4 mt-8 pt-6 border-t border-white/[0.06] text-[#6B655C]">
+            <span className="font-['JetBrains_Mono'] text-[10px] tracking-[0.25em] uppercase">Share :</span>
+            <FaFacebookF size={14} className="cursor-pointer hover:text-[#D4AF6A] transition" />
+            <FaXTwitter size={14} className="cursor-pointer hover:text-[#D4AF6A] transition" />
+            <FaLinkedinIn size={14} className="cursor-pointer hover:text-[#D4AF6A] transition" />
+          </div>
 
         </div>
       </div>
+    </div>
+  );
+}
+
+function InfoRow({ label, value }) {
+  return (
+    <div className="flex items-baseline justify-between gap-3 border-b border-white/[0.04] pb-3">
+      <span className="font-['JetBrains_Mono'] text-[10px] tracking-[0.2em] uppercase text-[#6B655C]">{label}</span>
+      <span className="text-[#F4EFE6] text-right">{value}</span>
     </div>
   );
 }

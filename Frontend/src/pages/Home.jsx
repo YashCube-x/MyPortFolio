@@ -1,109 +1,160 @@
-import { Reveal } from "../components/Reveal";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { FaCloud, FaCrown } from "react-icons/fa";
+import { ArrowUpRight, MousePointer2 } from "lucide-react";
+import heroConfident from "../assets/hero-confident.png";
+import heroConfused from "../assets/hero-confused.png";
+import heroSurprised from "../assets/hero-surprised.png";
+import SplitText from "../components/SplitText";
+import Magnetic from "../components/Magnetic";
+import { scrollToId } from "../lib/scrollTo";
+
+const PORTRAITS = [heroConfident, heroConfused, heroSurprised];
+
+// Ambient glow colors behind each transparent portrait cutout
+const GLOW_PRIMARY = ["#D4AF6A", "#B87333", "#8A6D3B"];
+const GLOW_SECONDARY = ["#5C4520", "#6B3F1D", "#4A3A1E"];
+
+const fadeUp = {
+  initial: { opacity: 0, y: 40 },
+  animate: { opacity: 1, y: 0 },
+};
 
 export default function Home() {
-  const scrollToAbout = () => {
-    document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+  const [active, setActive] = useState(0);
+
+  const handlePointerMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const percent = (e.clientX - rect.left) / rect.width;
+    const idx = percent < 1 / 3 ? 0 : percent < 2 / 3 ? 1 : 2;
+    setActive(idx);
   };
 
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center relative overflow-hidden bg-[#15171E]">
-      {/* Texture background */}
-      <div className="absolute inset-0 bg-[radial-gradient(#ffffff15_1px,transparent_1px)] [background-size:24px_24px] opacity-20 pointer-events-none"></div>
+    <div className="w-full min-h-screen relative overflow-hidden bg-[#0C0B09]">
+      {/* Ambient color glow - crossfades per expression, spans the whole hero */}
+      <motion.div
+        animate={{ backgroundColor: GLOW_PRIMARY[active] }}
+        transition={{ duration: 0.6, ease: "easeInOut" }}
+        className="absolute -top-32 right-[10%] w-[50%] h-[60%] rounded-full blur-[140px] opacity-[0.13] pointer-events-none"
+      />
+      <motion.div
+        animate={{ backgroundColor: GLOW_SECONDARY[active] }}
+        transition={{ duration: 0.6, ease: "easeInOut" }}
+        className="absolute -bottom-32 -left-24 w-[45%] h-[55%] rounded-full blur-[140px] opacity-[0.18] pointer-events-none"
+      />
 
-      {/* Decorative Elements - Shining White */}
-      <motion.div 
-        animate={{ y: [0, -20, 0], opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-24 right-8 lg:right-32 flex gap-4 hidden md:flex"
-      >
-         <span className="text-white text-xl font-light drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">x</span>
-         <span className="text-white text-3xl font-light mt-4 drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]">x</span>
-      </motion.div>
+      {/* Grain texture */}
+      <div className="absolute inset-0 bg-[radial-gradient(#ffffff07_1px,transparent_1px)] [background-size:22px_22px] opacity-30 pointer-events-none" />
 
-      <motion.div 
-        animate={{ y: [0, 20, 0], rotate: 12 }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-32 left-1/4 hidden md:block"
-      >
-        <svg width="40" height="40" viewBox="0 0 100 100" className="stroke-white fill-none drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
-            <path d="M20 20 L50 80 L80 20" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </motion.div>
+      {/* Ghost name in background */}
+      <div className="absolute bottom-[4%] left-0 w-full overflow-hidden pointer-events-none select-none hidden lg:block">
+        <p className="font-['Fraunces'] italic whitespace-nowrap text-[180px] leading-none stroke-ghost opacity-60">
+          software developer — software developer —
+        </p>
+      </div>
 
-      {/* Extra Floating Elements */}
-      <motion.div 
-        animate={{ y: [0, -30, 0], x: [0, 10, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/3 left-4 lg:left-10 hidden md:block"
-      >
-         <span className="text-white text-2xl font-light drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">+</span>
-      </motion.div>
+      <div className="relative z-10 w-full min-h-screen px-4 md:px-10">
+        <div className="max-w-6xl mx-auto w-full min-h-screen flex flex-col lg:flex-row items-stretch">
+          {/* Text side */}
+          <div className="flex-1 flex flex-col justify-center py-24 lg:py-0">
+            <motion.p
+              {...fadeUp}
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="flex items-center gap-3 font-['JetBrains_Mono'] text-[11px] md:text-xs tracking-[0.35em] uppercase text-[#D4AF6A] mb-6"
+            >
+              <span className="inline-block w-8 h-[1px] bg-[#D4AF6A]/60" />
+              Hello, I'm
+            </motion.p>
 
-       <motion.div 
-        animate={{ y: [0, 25, 0], x: [0, -10, 0] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-20 right-8 lg:right-20 hidden md:block"
-      >
-         <span className="text-white text-4xl font-light drop-shadow-[0_0_12px_rgba(255,255,255,0.5)]">.</span>
-      </motion.div>
-
-      {/* Cloud Icon */}
-      <motion.div 
-        animate={{ y: [0, 15, 0], x: [0, 5, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/4 left-1/3 opacity-80 hidden md:block"
-      >
-         <FaCloud className="text-white text-3xl drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
-      </motion.div>
-
-      {/* Crown Icon (King Throne) */}
-      <motion.div 
-        animate={{ y: [0, -15, 0], rotate: [0, 10, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-1/3 right-1/4 opacity-80 hidden md:block"
-      >
-         <FaCrown className="text-white text-3xl drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
-      </motion.div>
-
-
-      <div className="relative text-center z-10 px-4">
-        <Reveal>
-            <p className="tracking-[4px] md:tracking-[8px] text-xs md:text-sm font-semibold text-gray-400 mb-4 uppercase">Hello I'm</p>
-
-            <h1 className="text-[48px] sm:text-[60px] md:text-[80px] lg:text-[110px] leading-[0.9] font-bold tracking-tight select-none">
-            <span className="text-white">Suyash </span>
-            <span className="stroke-text">Prakash</span>
+            <h1 className="font-['Fraunces'] text-[56px] sm:text-[72px] md:text-[88px] lg:text-[100px] leading-[0.98] font-semibold tracking-tight select-none">
+              <SplitText delay={0.2} className="text-[#F4EFE6]">Suyash</SplitText>
+              <br />
+              <SplitText delay={0.45} className="stroke-text italic">Prakash</SplitText>
             </h1>
 
-            <div className="mt-6 md:mt-8 text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-200 font-light flex items-center justify-center gap-1 min-h-[32px] md:min-h-[40px] flex-wrap">
-                <span>I am a</span>
-                <span className="font-semibold text-white ml-2 drop-shadow-md">
-                    <Typewriter text="Software Developer" delay={100} infinite />
-                </span>
-                <span className="animate-blink w-[2px] h-6 md:h-8 bg-white/80 ml-1 inline-block"></span>
-            </div>
+            <motion.div
+              {...fadeUp}
+              transition={{ duration: 0.8, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-8 font-['JetBrains_Mono'] text-sm sm:text-base md:text-lg text-[#9C958A] flex items-center gap-1 min-h-[28px] flex-wrap"
+            >
+              <span className="text-[#6B655C]">$</span>
+              <span>whoami</span>
+              <span className="mx-2 text-[#6B655C]">→</span>
+              <span className="text-[#EBCB8B]">
+                <Typewriter text="Software Developer" delay={90} infinite />
+              </span>
+              <span className="animate-blink w-[8px] h-4 md:h-5 bg-[#D4AF6A]/80 ml-1 inline-block"></span>
+            </motion.div>
 
-            <div className="mt-10 md:mt-14 flex flex-col sm:flex-row justify-center gap-4 md:gap-6 px-4">
-            <button 
-                onClick={() => {
-                    const contactSection = document.getElementById('contact');
-                    if (contactSection) {
-                        contactSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                }}
-                className="bg-white text-black px-8 md:px-12 py-3 md:py-4 text-xs font-bold tracking-widest rounded-sm hover:scale-105 active:scale-95 transition-all duration-300 uppercase cursor-pointer">
-                Say Hello
-            </button>
-            <button 
-                onClick={scrollToAbout} 
-                className="border border-gray-600 text-white px-8 md:px-12 py-3 md:py-4 text-xs font-bold tracking-widest rounded-sm hover:border-white hover:bg-white hover:text-black hover:scale-105 active:scale-95 transition-all duration-300 uppercase cursor-pointer">
-                About Me
-            </button>
-            </div>
-        </Reveal>
+            <motion.p
+              {...fadeUp}
+              transition={{ duration: 0.8, delay: 1.05, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-6 max-w-md text-[#9C958A] text-sm md:text-base leading-relaxed"
+            >
+              C++ &amp; MERN developer crafting efficient algorithms and clean,
+              expressive interfaces. Currently seeking internship &amp; entry roles.
+            </motion.p>
+
+            <motion.div
+              {...fadeUp}
+              transition={{ duration: 0.8, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-10 md:mt-12 flex flex-col sm:flex-row gap-4 md:gap-5"
+            >
+              <Magnetic strength={0.25}>
+                <button
+                  onClick={() => scrollToId("contact")}
+                  className="group w-full sm:w-auto flex items-center justify-center gap-2 bg-[#D4AF6A] text-[#0C0B09] px-9 md:px-11 py-4 text-xs font-bold tracking-[0.2em] rounded-sm hover:bg-[#EBCB8B] transition-colors duration-300 uppercase cursor-pointer"
+                >
+                  Say Hello
+                  <ArrowUpRight size={14} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </button>
+              </Magnetic>
+              <Magnetic strength={0.25}>
+                <button
+                  onClick={() => scrollToId("about")}
+                  className="w-full sm:w-auto border border-white/15 text-[#F4EFE6] px-9 md:px-11 py-4 text-xs font-bold tracking-[0.2em] rounded-sm hover:border-[#D4AF6A] hover:text-[#D4AF6A] transition-colors duration-300 uppercase cursor-pointer"
+                >
+                  About Me
+                </button>
+              </Magnetic>
+            </motion.div>
+
+            {/* Scroll cue */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2, duration: 1 }}
+              className="hidden lg:flex items-center gap-3 mt-20 text-[#6B655C]"
+            >
+              <span className="relative w-[1px] h-12 bg-white/10 overflow-hidden">
+                <span className="absolute inset-x-0 h-1/2 bg-[#D4AF6A] animate-scroll-cue" />
+              </span>
+              <span className="font-['JetBrains_Mono'] text-[10px] tracking-[0.4em] uppercase">Scroll</span>
+            </motion.div>
+          </div>
+
+          {/* Portrait side - hover/move to swap expression */}
+          <div
+            className="relative flex-1 lg:flex-[1.2] min-h-[62vh] lg:min-h-screen overflow-visible cursor-pointer select-none"
+            onMouseMove={handlePointerMove}
+            onMouseLeave={() => setActive(0)}
+            data-cursor-label="MOVE"
+          >
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={active}
+                src={PORTRAITS[active]}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                alt="Suyash Prakash portrait"
+                className="absolute left-1/2 -translate-x-1/2 bottom-0 h-full w-auto max-w-full lg:max-w-none object-contain object-bottom drop-shadow-[0_0_60px_rgba(212,175,106,0.15)]"
+                draggable={false}
+              />
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -123,12 +174,6 @@ const Typewriter = ({ text, delay, infinite }) => {
         setCurrentIndex(prevIndex => prevIndex + 1);
       }, delay);
     } else if (infinite) {
-      // Optional: Reset to loop, or just stay finished. 
-      // User image shows "Software Developer_" implying mostly static typing or simple loop.
-      // Let's hold for a bit then reset if we want a loop, but strictly "typing animation" usually means typing ONCE or loop.
-      // I'll make it type once and hold, as that's less distracting, OR a slow loop.
-      // Let's just type once for now to be safe, unless requested to loop. 
-      // Actually, typically portfolios loop. Let's add a reset.
       timeout = setTimeout(() => {
         setCurrentIndex(0);
         setCurrentText('');

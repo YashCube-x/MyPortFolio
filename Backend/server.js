@@ -1,10 +1,16 @@
+import "dotenv/config";
 import express from "express";
-import dotenv from "dotenv";
 import cors from "cors";
 import contactRoutes from "./routes/contactRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
+import projectRoutes from "./routes/projectRoutes.js";
+import certificateRoutes from "./routes/certificateRoutes.js";
+import serviceRoutes from "./routes/serviceRoutes.js";
+import settingsRoutes from "./routes/settingsRoutes.js";
+import analyticsRoutes from "./routes/analyticsRoutes.js";
 import connectDB from "./config/db.js";
 
-dotenv.config();
 connectDB();
 
 const app = express();
@@ -33,6 +39,13 @@ app.use(express.json());
 
 // Routes
 app.use("/api", contactRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/upload", uploadRoutes);
+app.use("/api/projects", projectRoutes);
+app.use("/api/certificates", certificateRoutes);
+app.use("/api/services", serviceRoutes);
+app.use("/api/settings", settingsRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 app.get("/", (req, res) => {
   res.send("API is running 🚀");

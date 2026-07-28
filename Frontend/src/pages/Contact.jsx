@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+import { MapPin, Phone, Mail, Send, CheckCircle2, XCircle, Navigation } from "lucide-react";
 import { Reveal } from "../components/Reveal";
+import { Kicker, Title } from "../components/SectionHeading";
+import Magnetic from "../components/Magnetic";
+import api from "../lib/api";
+
+const INPUT_CLASS =
+  "w-full bg-white border border-black/[0.08] rounded-sm p-4 text-sm text-[#17150F] placeholder:text-[#A29A8B] focus:outline-none focus:border-[#A9832F]/70 transition duration-300 shadow-sm";
 
 export default function Contact() {
-
+  const [settings, setSettings] = useState({ location: "", phone: "", email: "" });
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,6 +21,14 @@ export default function Contact() {
 
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
+
+  useEffect(() => {
+    api.get("/settings").then((res) => setSettings(res.data.data));
+  }, []);
+
+  const address = settings.location;
+  const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
+  const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`;
 
   // handle input change
   const handleChange = (e) => {
@@ -31,7 +45,8 @@ export default function Contact() {
     setStatus("");
 
     try {
-      await axios.post("http://localhost:5000/api/contact", formData);
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+      await axios.post(`${apiUrl}/api/contact`, formData);
 
       setStatus("success");
 
@@ -43,144 +58,173 @@ export default function Contact() {
         message: "",
       });
 
-      // Auto hide after 5 seconds
-      setTimeout(() => {
-        setStatus("");
-      }, 5000);
+      setTimeout(() => setStatus(""), 5000);
     } catch (error) {
       setStatus("error");
-      
-      // Auto hide error after 5 seconds
-      setTimeout(() => {
-        setStatus("");
-      }, 5000);
+      setTimeout(() => setStatus(""), 5000);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <section className="w-full min-h-screen bg-white text-black font-['Outfit'] py-16 md:py-24">
-      <div className="max-w-6xl mx-auto px-4 md:px-10 mb-16 md:mb-20">
-        <div className="text-center mb-10 md:mb-16">
-          <p className="text-gray-400 text-xs tracking-[4px] uppercase font-bold mb-4">
-            Contact Me
-          </p>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1f2933]">
-            Let's Start A New Project
-          </h2>
+    <section className="w-full min-h-screen bg-[#F5F1E8] text-[#17150F] font-['Outfit'] py-20 md:py-28 relative overflow-hidden">
+      {/* Glow */}
+      <div className="absolute top-0 left-[30%] w-[40%] h-[35%] bg-[#D4AF6A]/[0.10] blur-[140px] rounded-full pointer-events-none" />
+
+      {/* Grain */}
+      <div className="absolute inset-0 bg-[radial-gradient(#00000008_1px,transparent_1px)] [background-size:22px_22px] opacity-40 pointer-events-none" />
+
+      <div className="max-w-6xl mx-auto px-4 md:px-10 relative z-10">
+        <div className="text-center mb-12 md:mb-16 flex flex-col items-center">
+          <Kicker tone="light" className="mb-5">Contact Me</Kicker>
+          <Title tone="light">Let's Start A New Project</Title>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-10 md:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-start">
 
-          {/* Contact Info */}
-          <div className="space-y-8">
-            <ContactItem icon={<FaMapMarkerAlt />} title="Location" text="Kanpur, Uttar Pradesh 208024" />
-            <ContactItem icon={<FaPhoneAlt />} title="Phone" text="+91-9125900756" />
-            <ContactItem icon={<FaEnvelope />} title="Email" text="yashcube07@gmail.com" />
+          {/* Left half — info + form */}
+          <div>
+            <div className="flex flex-wrap gap-x-10 gap-y-6 mb-10 pb-10 border-b border-black/[0.08]">
+              <ContactItem icon={<MapPin size={18} strokeWidth={1.5} />} title="Location" text={settings.location} />
+              <ContactItem icon={<Phone size={18} strokeWidth={1.5} />} title="Phone" text={settings.phone} />
+              <ContactItem icon={<Mail size={18} strokeWidth={1.5} />} title="Email" text={settings.email} />
+            </div>
+
+            <form className="space-y-5" onSubmit={handleSubmit}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className={INPUT_CLASS}
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className={INPUT_CLASS}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Your Phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                  className={INPUT_CLASS}
+                />
+                <input
+                  type="text"
+                  name="subject"
+                  placeholder="Your Subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  required
+                  className={INPUT_CLASS}
+                />
+              </div>
+
+              <textarea
+                name="message"
+                placeholder="Start writing message here"
+                rows="5"
+                value={formData.message}
+                onChange={handleChange}
+                required
+                className={`${INPUT_CLASS} resize-none`}
+              ></textarea>
+
+              <div className="flex items-center gap-6 flex-wrap">
+                <Magnetic strength={0.2}>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="group flex items-center gap-2.5 bg-[#17150F] text-[#F5F1E8] px-10 py-4 text-xs font-bold tracking-[0.2em] uppercase rounded-sm hover:bg-[#A9832F] transition-colors duration-300 cursor-pointer disabled:opacity-50"
+                  >
+                    {loading ? "Sending..." : "Submit Now"}
+                    <Send size={13} className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" />
+                  </button>
+                </Magnetic>
+
+                <p className="font-['JetBrains_Mono'] text-[10px] tracking-[0.3em] uppercase text-[#A29A8B]">
+                  Avg. response <span className="text-[#A9832F]">&lt; 24 hours</span>
+                </p>
+              </div>
+
+              {/* Success/Error Notification */}
+              {status === "success" && (
+                <div className="flex items-center gap-3 bg-white border border-[#A9832F]/30 text-[#17150F] px-6 py-4 rounded-sm animate-fade-in-up shadow-lg">
+                  <CheckCircle2 className="w-6 h-6 flex-shrink-0 text-green-600" strokeWidth={1.5} />
+                  <div className="flex-1">
+                    <p className="font-semibold text-sm">Message Sent Successfully</p>
+                    <p className="text-xs text-[#6F6A60] mt-1">Thank you for reaching out. I'll get back to you soon!</p>
+                  </div>
+                </div>
+              )}
+
+              {status === "error" && (
+                <div className="flex items-center gap-3 bg-white border border-[#E5734D]/40 text-[#17150F] px-6 py-4 rounded-sm animate-fade-in-up shadow-lg">
+                  <XCircle className="w-6 h-6 flex-shrink-0 text-[#D14D2A]" strokeWidth={1.5} />
+                  <div className="flex-1">
+                    <p className="font-semibold text-sm">Failed to Send Message</p>
+                    <p className="text-xs text-[#6F6A60] mt-1">Please try again or email me directly at {settings.email}</p>
+                  </div>
+                </div>
+              )}
+            </form>
           </div>
 
-          {/* Contact Form */}
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          {/* Right half — square map card + get directions */}
+          <Reveal width="100%">
+            <div className="relative w-full aspect-square rounded-xl overflow-hidden border border-black/[0.08] shadow-xl group">
+              <iframe
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                scrolling="no"
+                src={mapEmbedSrc}
+                title="Map"
+                className="absolute inset-0 w-full h-full"
+                style={{ filter: "grayscale(0.5) sepia(0.12) contrast(0.95)" }}
+              ></iframe>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <input
-                type="text"
-                name="name"
-                placeholder="Your Name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="w-full border border-gray-200 rounded-sm p-4 text-sm focus:outline-none focus:border-black transition"
-              />
-              <input
-                type="email"
-                name="email"
-                placeholder="Your Email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="w-full border border-gray-200 rounded-sm p-4 text-sm focus:outline-none focus:border-black transition"
-              />
-            </div>
+              {/* Overlay gradient so it reads as a designed card, not a raw embed */}
+              <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#17150F]/70 via-transparent to-transparent" />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Your Phone"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-                className="w-full border border-gray-200 rounded-sm p-4 text-sm focus:outline-none focus:border-black transition"
-              />
-              <input
-                type="text"
-                name="subject"
-                placeholder="Your Subject"
-                value={formData.subject}
-                onChange={handleChange}
-                required
-                className="w-full border border-gray-200 rounded-sm p-4 text-sm focus:outline-none focus:border-black transition"
-              />
-            </div>
-
-            <textarea
-              name="message"
-              placeholder="Start writing message here"
-              rows="6"
-              value={formData.message}
-              onChange={handleChange}
-              required
-              className="w-full border border-gray-200 rounded-sm p-4 text-sm focus:outline-none focus:border-black transition resize-none"
-            ></textarea>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="bg-[#1f252b] text-white px-10 py-4 text-xs font-bold tracking-widest uppercase rounded-sm hover:opacity-90 transition cursor-pointer disabled:opacity-50"
-            >
-              {loading ? "Sending..." : "Submit Now"}
-            </button>
-
-            {/* Success/Error Notification */}
-            {status === "success" && (
-              <div className="flex items-center gap-3 bg-[#1f2933] border border-gray-700 text-white px-6 py-4 rounded-sm animate-fade-in-up shadow-lg">
-                <svg className="w-6 h-6 flex-shrink-0 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <div className="flex-1">
-                  <p className="font-semibold text-sm">Message Sent Successfully</p>
-                  <p className="text-xs text-gray-400 mt-1">Thank you for reaching out. I'll get back to you soon!</p>
-                </div>
+              {/* Address chip */}
+              <div className="absolute top-4 left-4 right-4 flex items-start gap-2 bg-white/90 backdrop-blur-sm rounded-sm px-4 py-3 shadow-md">
+                <MapPin size={16} className="text-[#A9832F] mt-0.5 flex-shrink-0" />
+                <p className="text-xs font-medium text-[#17150F] leading-snug">{address}</p>
               </div>
-            )}
 
-            {status === "error" && (
-              <div className="flex items-center gap-3 bg-[#1f2933] border border-gray-700 text-white px-6 py-4 rounded-sm animate-fade-in-up shadow-lg">
-                <svg className="w-6 h-6 flex-shrink-0 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <div className="flex-1">
-                  <p className="font-semibold text-sm">Failed to Send Message</p>
-                  <p className="text-xs text-gray-400 mt-1">Please try again or email me directly at yashcube07@gmail.com</p>
-                </div>
+              {/* Get Directions button */}
+              <div className="absolute bottom-4 left-4 right-4">
+                <Magnetic strength={0.15} className="block w-full">
+                  <a
+                    href={directionsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-cursor-label="OPEN"
+                    className="group flex items-center justify-center gap-2.5 w-full bg-[#17150F] text-[#F5F1E8] px-6 py-4 text-xs font-bold tracking-[0.2em] uppercase rounded-sm hover:bg-[#A9832F] transition-colors duration-300 shadow-lg"
+                  >
+                    <Navigation size={14} className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                    Get Directions
+                  </a>
+                </Magnetic>
               </div>
-            )}
-          </form>
+            </div>
+          </Reveal>
         </div>
-      </div>
-
-      {/* Map */}
-      <div className="w-full h-[250px] md:h-[400px] bg-gray-100 overflow-hidden grayscale-[50%]">
-        <iframe
-          width="100%"
-          height="100%"
-          frameBorder="0"
-          scrolling="no"
-          src="https://www.openstreetmap.org/export/embed.html?bbox=80.2396%2C26.3934%2C80.4496%2C26.5434&layer=mapnik"
-          title="Map"
-        ></iframe>
       </div>
     </section>
   );
@@ -188,13 +232,13 @@ export default function Contact() {
 
 function ContactItem({ icon, title, text }) {
   return (
-    <div className="flex gap-6 items-start">
-      <div className="w-14 h-14 border border-gray-200 rounded-full flex items-center justify-center text-[#1f2933] text-lg">
+    <div className="flex gap-3 items-start group">
+      <div className="min-w-[42px] min-h-[42px] w-[42px] h-[42px] border border-[#A9832F]/40 bg-white/70 rounded-sm flex items-center justify-center text-[#A9832F] group-hover:bg-[#17150F] group-hover:text-[#D4AF6A] group-hover:border-[#17150F] transition-colors duration-500 shadow-sm">
         {icon}
       </div>
       <div>
-        <h4 className="text-lg font-bold text-[#1f2933]">{title}</h4>
-        <p className="text-gray-500 text-sm mt-1">{text}</p>
+        <h4 className="font-['JetBrains_Mono'] text-[10px] tracking-[0.2em] uppercase text-[#A29A8B]">{title}</h4>
+        <p className="text-[#17150F] text-sm mt-1 font-medium">{text}</p>
       </div>
     </div>
   );
