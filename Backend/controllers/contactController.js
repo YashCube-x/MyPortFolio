@@ -41,6 +41,42 @@ export const deleteContact = async (req, res) => {
   }
 };
 
+// Gmail SMTP transporter, reused across requests. Explicit timeouts stop a
+// blocked/slow outbound connection (common on hosts that throttle SMTP) from
+// hanging forever — it fails fast instead.
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+  connectionTimeout: 10_000,
+  greetingTimeout: 10_000,
+  socketTimeout: 10_000,
+});
+
+const buildEmailHtml = ({ name, email, phone, subject, message }) => `
+  <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+    <h2 style="color:#333;">📩 New Contact Form Submission</h2>
+    <hr />
+
+    <p><strong>Name:</strong> ${name}</p>
+    <p><strong>Email:</strong> ${email}</p>
+    <p><strong>Phone:</strong> ${phone}</p>
+    <p><strong>Subject:</strong> ${subject}</p>
+
+    <h3>Message:</h3>
+    <p style="background:#f5f5f5; padding:10px; border-radius:5px;">
+      ${message}
+    </p>
+
+    <hr />
+    <p style="font-size:12px; color:#777;">
+      This message was sent from your portfolio contact form.
+    </p>
+  </div>
+`;
+
 export const createContact = async (req, res) => {
   try {
     const { name, email, phone, subject, message } = req.body;
@@ -62,52 +98,27 @@ export const createContact = async (req, res) => {
       message,
     });
 
-    // 2️⃣ Email Transporter
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
-    // 3️⃣ FORMATTED EMAIL TEMPLATE
-    const emailTemplate = `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6;">
-        <h2 style="color:#333;">📩 New Contact Form Submission</h2>
-        <hr />
-
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
-
-        <h3>Message:</h3>
-        <p style="background:#f5f5f5; padding:10px; border-radius:5px;">
-          ${message}
-        </p>
-
-        <hr />
-        <p style="font-size:12px; color:#777;">
-          This message was sent from your portfolio contact form.
-        </p>
-      </div>
-    `;
-
-    // 4️⃣ Send Email
-    await transporter.sendMail({
-      from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER,
-      subject: `📩 New Contact Form Submission - ${subject}`,
-      html: emailTemplate,
-    });
-
-    // Response
+    // 2️⃣ Respond immediately — the submission is already safely stored,
+    // so the visitor shouldn't have to wait on (or fail because of) email
+    // delivery, which can hang or fail independently of the save above.
     res.status(201).json({
       success: true,
-      message: "Message saved & email sent in proper format",
+      message: "Message saved",
       data: newContact,
     });
+
+    // 3️⃣ Send the notification email in the background. Logged on failure,
+    // but never blocks or fails the response the visitor already got.
+    transporter
+      .sendMail({
+        from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
+        to: process.env.EMAIL_USER,
+        subject: `📩 New Contact Form Submission - ${subject}`,
+        html: buildEmailHtml({ name, email, phone, subject, message }),
+      })
+      .catch((error) => {
+        console.error("Contact notification email failed:", error.message);
+      });
   } catch (error) {
     console.error("Contact Error:", error);
     res.status(500).json({
