@@ -101,7 +101,7 @@ export default function Works() {
                   )}
                 </AnimatePresence>
 
-                <div className="flex gap-3 z-30 relative">
+                <div className="flex gap-3 z-30 relative w-full justify-center md:w-auto md:justify-start">
                   {Boolean(project.github) && project.github !== "#" && (
                     <a
                       href={project.github}
