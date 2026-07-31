@@ -5,12 +5,90 @@ import { Kicker, Title } from "../components/SectionHeading";
 import { ArrowDownToLine } from "lucide-react";
 import api from "../lib/api";
 
-const STATIC_DETAILS = [
-  { label: "Name", value: "Suyash Prakash" },
-  { label: "Education", value: "B.Tech (CSE)" },
+const SKILLS_CATEGORIZED = [
+  {
+    category: "Languages",
+    skills: [
+      { name: "C++", level: 92 },
+      { name: "JavaScript (ES6+)", level: 88 },
+      { name: "Python", level: 75 },
+      { name: "Java", level: 70 },
+      { name: "SQL", level: 85 },
+    ],
+  },
+  {
+    category: "Frontend",
+    skills: [
+      { name: "React", level: 88 },
+      { name: "Tailwind CSS", level: 90 },
+      { name: "Framer Motion", level: 82 },
+      { name: "HTML5", level: 95 },
+      { name: "CSS3", level: 90 },
+    ],
+  },
+  {
+    category: "Backend",
+    skills: [
+      { name: "Node.js", level: 85 },
+      { name: "Express.js", level: 85 },
+      { name: "RESTful APIs", level: 90 },
+      { name: "Unit Testing", level: 80 },
+    ],
+  },
+  {
+    category: "Databases",
+    skills: [
+      { name: "MongoDB", level: 85 },
+      { name: "PostgreSQL", level: 80 },
+      { name: "MySQL", level: 82 },
+    ],
+  },
+  {
+    category: "Tools & OS",
+    skills: [
+      { name: "Git", level: 90 },
+      { name: "GitHub", level: 92 },
+      { name: "Arch Linux", level: 85 },
+      { name: "VS Code", level: 95 },
+      { name: "Vercel", level: 88 },
+      { name: "Postman", level: 88 },
+    ],
+  },
+  {
+    category: "Concepts & AI",
+    skills: [
+      { name: "Data Structures & Algorithms", level: 90 },
+      { name: "OOP", level: 88 },
+      { name: "Pinecone Vector DB", level: 80 },
+      { name: "RAG", level: 85 },
+      { name: "Prompt Engineering", level: 85 },
+    ],
+  },
 ];
 
-const SKILLS = ["C++", "JavaScript", "React.js", "Node.js", "Express.js", "MongoDB", "SQL", "Git/GitHub", "DSA"];
+function SkillPill({ name, level }) {
+  return (
+    <div className="relative group overflow-hidden px-3 py-1.5 bg-white/80 border border-black/[0.08] rounded-sm shadow-sm cursor-pointer transition-all duration-300 ease-out hover:scale-105 hover:-translate-y-0.5 hover:z-20 hover:border-[#A9832F] hover:shadow-[0_6px_20px_rgba(169,131,47,0.25)] select-none">
+      {/* Liquid Paint fill animation from left-to-right on hover */}
+      <div
+        className="absolute top-0 left-0 bottom-0 bg-gradient-to-r from-[#D4AF6A] to-[#A9832F] opacity-0 group-hover:opacity-100 w-0 group-hover:w-full transition-all duration-500 ease-out pointer-events-none rounded-sm"
+        style={{
+          maxWidth: `${level}%`,
+        }}
+      />
+
+      {/* Content */}
+      <div className="relative z-10 flex items-center justify-between gap-2.5 text-xs">
+        <span className="text-[#3D372E] group-hover:text-white font-medium transition-colors duration-300">
+          {name}
+        </span>
+        <span className="font-['JetBrains_Mono'] text-[10px] font-bold text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 ml-1">
+          {level}%
+        </span>
+      </div>
+    </div>
+  );
+}
 
 export default function About() {
   const [settings, setSettings] = useState(null);
@@ -19,23 +97,15 @@ export default function About() {
     api.get("/settings").then((res) => setSettings(res.data.data));
   }, []);
 
-  const details = [
-    STATIC_DETAILS[0],
-    { label: "Phone", value: settings?.phone || "" },
-    { label: "Email", value: settings?.email || "" },
-    STATIC_DETAILS[1],
-    { label: "Location", value: settings?.location || "" },
-  ];
-
   return (
-    <section className="w-full min-h-[100dvh] bg-[#F5F1E8] text-[#17150F] flex items-center justify-center py-20 md:py-28 px-4 md:px-10 font-['Outfit'] relative overflow-hidden">
+    <section className="w-full min-h-[100dvh] bg-[#F5F1E8] text-[#17150F] flex items-center justify-center py-10 md:py-14 px-4 md:px-10 font-['Outfit'] relative overflow-hidden">
       {/* Soft corner glow */}
       <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-[#D4AF6A]/[0.12] blur-[120px] rounded-full pointer-events-none" />
 
       {/* Grain */}
       <div className="absolute inset-0 bg-[radial-gradient(#00000008_1px,transparent_1px)] [background-size:22px_22px] opacity-40 pointer-events-none" />
 
-      <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center relative z-10">
+      <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center relative z-10">
 
         {/* Left Side - Image */}
         <div className="relative">
@@ -75,35 +145,36 @@ export default function About() {
         {/* Right Side - Content */}
         <div>
           <Reveal>
-            <Kicker tone="light" className="mb-5">About Me</Kicker>
-            <Title tone="light" className="mb-8">Skilled C++ & MERN Developer</Title>
+            <Kicker tone="light" className="mb-4">About Me</Kicker>
+            <Title tone="light" className="mb-6">Skilled C++ & MERN Developer</Title>
 
-            <p className="text-[#6F6A60] mb-8 leading-relaxed text-sm md:text-base">
+            <p className="text-[#6F6A60] mb-6 leading-relaxed text-sm md:text-base">
               Software developer skilled in <span className="text-[#A9832F] font-medium">C++</span> (primary) and JavaScript.
               Strong in algorithms, clean web UIs and practical backend with Node/Express.
               Seeking internship/entry roles to build efficient, scalable software.
             </p>
 
-            <div className="grid grid-cols-2 gap-y-5 md:gap-y-6 gap-x-6 md:gap-x-12 text-sm mb-10 border-t border-black/[0.08] pt-8">
-              {details.map((d) => (
-                <div key={d.label}>
-                  <p className="font-['JetBrains_Mono'] text-[10px] tracking-[0.25em] uppercase text-[#A29A8B] mb-1">{d.label}</p>
-                  <p className="text-[#17150F] break-all">{d.value}</p>
-                </div>
-              ))}
-            </div>
-
             {/* Skills Section */}
             <div>
-              <p className="font-['JetBrains_Mono'] text-[10px] tracking-[0.25em] uppercase text-[#A29A8B] mb-4">Technical Skills</p>
-              <div className="flex flex-wrap gap-2 text-xs md:text-sm">
-                {SKILLS.map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-4 py-2 bg-white/70 border border-black/[0.07] rounded-sm text-[#5F594E] hover:text-[#A9832F] hover:border-[#A9832F]/50 transition-colors duration-300 shadow-sm"
-                  >
-                    {skill}
-                  </span>
+              <h3 className="font-['Fraunces'] text-xl font-bold text-[#17150F] uppercase tracking-wider mb-4 border-b border-black/[0.1] pb-2 flex items-center justify-between">
+                <span>Technical Skills</span>
+                <span className="font-['JetBrains_Mono'] text-[10px] text-[#A9832F] font-normal tracking-normal normal-case hidden sm:inline">
+                  (Hover for proficiency)
+                </span>
+              </h3>
+
+              <div className="space-y-2.5">
+                {SKILLS_CATEGORIZED.map((group) => (
+                  <div key={group.category} className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
+                    <span className="font-['JetBrains_Mono'] text-[12px] text-[#A9832F] uppercase tracking-wider font-bold shrink-0 whitespace-nowrap min-w-[84px]">
+                      {group.category}
+                    </span>
+                    <div className="flex flex-wrap gap-1.5 text-[11px] flex-1 min-w-0">
+                      {group.skills.map((skill) => (
+                        <SkillPill key={skill.name} name={skill.name} level={skill.level} />
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>

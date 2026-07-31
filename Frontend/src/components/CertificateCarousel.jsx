@@ -3,6 +3,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 
 const AUTO_ADVANCE_MS = 2000;
+// Sensible placeholder box shape shown briefly before each certificate's
+// real image dimensions are known (see handleImageLoad below).
+const DEFAULT_ASPECT = 4 / 3;
 
 const slideVariants = {
   enter: (direction) => ({ x: direction > 0 ? 60 : -60, opacity: 0 }),
@@ -13,8 +16,23 @@ const slideVariants = {
 export default function CertificateCarousel({ items }) {
   const [[index, direction], setSlide] = useState([0, 1]);
   const [isPaused, setIsPaused] = useState(false);
+  const [aspect, setAspect] = useState(DEFAULT_ASPECT);
 
   const count = items.length;
+  const item = items[index];
+
+  // Reset to the placeholder shape whenever the slide changes, then let
+  // handleImageLoad size the box to that certificate's real dimensions —
+  // so every certificate shows edge-to-edge with no crop and no dead space,
+  // whatever its own width/height happens to be.
+  useEffect(() => {
+    setAspect(DEFAULT_ASPECT);
+  }, [item?.id]);
+
+  const handleImageLoad = (e) => {
+    const { naturalWidth, naturalHeight } = e.target;
+    if (naturalWidth && naturalHeight) setAspect(naturalWidth / naturalHeight);
+  };
 
   const goTo = useCallback((next) => {
     setSlide(([current]) => [next, next >= current ? 1 : -1]);
@@ -36,8 +54,6 @@ export default function CertificateCarousel({ items }) {
   }, [count, isPaused, goNext, index]);
 
   if (count === 0) return null;
-
-  const item = items[index];
 
   return (
     <div
@@ -61,33 +77,42 @@ export default function CertificateCarousel({ items }) {
             exit="exit"
             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           >
-            {/* Fixed-size rectangle box for the certificate image */}
-            <div className="relative w-full h-[30rem] md:h-[39rem] rounded-xl overflow-hidden border border-black/[0.08] bg-white shadow-xl">
-              {item.image ? (
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-full object-contain p-9 group-hover:scale-[1.03] transition duration-500"
-                  draggable={false}
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-[#B4AC9C] text-base uppercase tracking-widest font-['JetBrains_Mono']">
-                  No Preview
+            {/* Certificate box — its aspect ratio is set from each image's
+                own natural width/height (via handleImageLoad) once it
+                loads, so every certificate shows edge-to-edge with no crop
+                and no dead space, whatever shape it actually is. */}
+            <div className="max-w-2xl mx-auto">
+              <div
+                className="relative w-full rounded-xl overflow-hidden border-4 border-[#D4AF6A]/30 bg-white shadow-xl"
+                style={{ aspectRatio: aspect }}
+              >
+                {item.image ? (
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    onLoad={handleImageLoad}
+                    className="w-full h-full object-contain group-hover:scale-[1.03] transition duration-500"
+                    draggable={false}
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-[#B4AC9C] text-base uppercase tracking-widest font-['JetBrains_Mono']">
+                    No Preview
+                  </div>
+                )}
+
+                {/* Year chip */}
+                {item.year && (
+                  <span className="absolute top-4 right-4 bg-[#17150F] text-[#D4AF6A] px-4 py-2 rounded-full font-['JetBrains_Mono'] text-sm tracking-wider shadow-md">
+                    {item.year}
+                  </span>
+                )}
+
+                {/* Hover hint to open */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end justify-end p-5 pointer-events-none">
+                  <span className="flex items-center gap-2 text-white text-sm font-bold uppercase tracking-widest">
+                    <ExternalLink size={16} /> View Certificate
+                  </span>
                 </div>
-              )}
-
-              {/* Year chip */}
-              {item.year && (
-                <span className="absolute top-6 right-6 bg-[#17150F] text-[#D4AF6A] px-5 py-3 rounded-full font-['JetBrains_Mono'] text-base tracking-wider shadow-md">
-                  {item.year}
-                </span>
-              )}
-
-              {/* Hover hint to open */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end justify-end p-7 pointer-events-none">
-                <span className="flex items-center gap-2 text-white text-base font-bold uppercase tracking-widest">
-                  <ExternalLink size={20} /> View Certificate
-                </span>
               </div>
             </div>
 
