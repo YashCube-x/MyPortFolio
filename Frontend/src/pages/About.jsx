@@ -67,11 +67,22 @@ const SKILLS_CATEGORIZED = [
 ];
 
 function SkillPill({ name, level }) {
+  // Touch devices have no real hover state, so tapping a pill toggles the
+  // same "revealed" look that group-hover gives on desktop.
+  const [tapped, setTapped] = useState(false);
+
   return (
-    <div className="relative group overflow-hidden px-3 py-1.5 bg-white/80 border border-black/[0.08] rounded-sm shadow-sm cursor-pointer transition-all duration-300 ease-out hover:scale-105 hover:-translate-y-0.5 hover:z-20 hover:border-[#A9832F] hover:shadow-[0_6px_20px_rgba(169,131,47,0.25)] select-none">
-      {/* Liquid Paint fill animation from left-to-right on hover */}
+    <div
+      onClick={() => setTapped((v) => !v)}
+      className={`relative group overflow-hidden px-3 py-1.5 bg-white/80 border border-black/[0.08] rounded-sm shadow-sm cursor-pointer transition-all duration-300 ease-out hover:scale-105 hover:-translate-y-0.5 hover:z-20 hover:border-[#A9832F] hover:shadow-[0_6px_20px_rgba(169,131,47,0.25)] select-none ${
+        tapped ? "scale-105 -translate-y-0.5 z-20 border-[#A9832F] shadow-[0_6px_20px_rgba(169,131,47,0.25)]" : ""
+      }`}
+    >
+      {/* Liquid Paint fill animation from left-to-right on hover (desktop) or tap (mobile) */}
       <div
-        className="absolute top-0 left-0 bottom-0 bg-gradient-to-r from-[#D4AF6A] to-[#A9832F] opacity-0 group-hover:opacity-100 w-0 group-hover:w-full transition-all duration-500 ease-out pointer-events-none rounded-sm"
+        className={`absolute top-0 left-0 bottom-0 bg-gradient-to-r from-[#D4AF6A] to-[#A9832F] opacity-0 group-hover:opacity-100 w-0 group-hover:w-full transition-all duration-500 ease-out pointer-events-none rounded-sm ${
+          tapped ? "opacity-100 w-full" : ""
+        }`}
         style={{
           maxWidth: `${level}%`,
         }}
@@ -79,10 +90,10 @@ function SkillPill({ name, level }) {
 
       {/* Content */}
       <div className="relative z-10 flex items-center justify-between gap-2.5 text-xs">
-        <span className="text-[#3D372E] group-hover:text-white font-medium transition-colors duration-300">
+        <span className={`text-[#3D372E] group-hover:text-white font-medium transition-colors duration-300 ${tapped ? "text-white" : ""}`}>
           {name}
         </span>
-        <span className="font-['JetBrains_Mono'] text-[10px] font-bold text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 ml-1">
+        <span className={`font-['JetBrains_Mono'] text-[10px] font-bold text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 ml-1 ${tapped ? "opacity-100" : ""}`}>
           {level}%
         </span>
       </div>
