@@ -81,7 +81,7 @@ export default function CertificateCarousel({ items }) {
                 own natural width/height (via handleImageLoad) once it
                 loads, so every certificate shows edge-to-edge with no crop
                 and no dead space, whatever shape it actually is. */}
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-xs sm:max-w-2xl mx-auto">
               <div
                 className="relative w-full rounded-xl overflow-hidden border-4 border-[#D4AF6A]/30 bg-white shadow-xl"
                 style={{ aspectRatio: aspect }}
