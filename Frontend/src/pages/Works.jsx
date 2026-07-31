@@ -59,76 +59,14 @@ export default function Works() {
       <div className="max-w-5xl mx-auto px-4 md:px-10 pb-14 md:pb-24 relative z-10">
         <div className="border-t border-black/[0.08]">
           {visibleProjects.map((project, i) => (
-            <Reveal key={project.id} width="100%">
-              <div
-                className="group border-b border-black/[0.08] py-7 md:py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-6 hover:bg-black/[0.02] transition duration-300 px-4 md:px-6 cursor-pointer relative overflow-visible"
-                onClick={() => setSelectedProject(project)}
-                onMouseEnter={() => setHoveredProject(project)}
-                onMouseLeave={() => setHoveredProject(null)}
-                data-cursor-label="OPEN"
-              >
-                <div className="text-left z-10 relative pointer-events-none md:pointer-events-auto flex gap-5 md:gap-8 items-baseline">
-                  <span className="font-['Fraunces'] italic text-lg md:text-xl text-[#B4AC9C] group-hover:text-[#A9832F] transition-colors duration-300">
-                    0{i + 1}
-                  </span>
-                  <div>
-                    <span className="font-['JetBrains_Mono'] text-[10px] font-bold tracking-[0.25em] text-[#A9832F]/80 uppercase mb-2 block group-hover:text-[#A9832F] transition">
-                      {project.category}
-                    </span>
-                    <h3 className="font-['Fraunces'] text-2xl md:text-3xl font-semibold text-[#17150F] group-hover:translate-x-2 transition-transform duration-300">
-                      {project.title}
-                    </h3>
-                    <p className="text-xs md:text-sm text-[#6F6A60] mt-2 max-w-md">{project.description}</p>
-                  </div>
-                </div>
-
-                {/* Hover Image - Pop-out style */}
-                <AnimatePresence>
-                  {hoveredProject === project && project.image && (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.8, y: 100, rotate: -5 }}
-                      animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
-                      exit={{ opacity: 0, scale: 0.8, y: 100, rotate: -5 }}
-                      transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                      className="absolute top-1/2 right-[15%] -translate-y-1/2 w-[350px] h-[220px] pointer-events-none z-20 overflow-hidden shadow-2xl hidden md:block rounded-md border border-black/10 bg-white"
-                    >
-                      <img
-                        src={project.image}
-                        alt={project.title}
-                        className="w-full h-full object-contain"
-                      />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                <div className="flex gap-3 z-30 relative w-full justify-center md:w-auto md:justify-start">
-                  {Boolean(project.github) && project.github !== "#" && (
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      aria-label="GitHub repository"
-                      className="w-11 h-11 md:w-12 md:h-12 rounded-full border border-black/15 flex items-center justify-center text-[#6F6A60] hover:bg-[#17150F] hover:text-[#D4AF6A] hover:border-[#17150F] transition duration-300 transform group-hover:scale-110"
-                    >
-                      <FaGithub size={18} />
-                    </a>
-                  )}
-                  {Boolean(project.demo) && project.demo !== "#" && (
-                    <a
-                      href={project.demo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      aria-label="Live demo"
-                      className="w-11 h-11 md:w-12 md:h-12 rounded-full border border-black/15 flex items-center justify-center text-[#6F6A60] hover:bg-[#17150F] hover:text-[#D4AF6A] hover:border-[#17150F] transition duration-300 transform group-hover:scale-110"
-                    >
-                      <ArrowUpRight size={18} />
-                    </a>
-                  )}
-                </div>
-              </div>
-            </Reveal>
+            <ProjectCardRow
+              key={project.id}
+              project={project}
+              index={i}
+              onSelect={setSelectedProject}
+              hoveredProject={hoveredProject}
+              setHoveredProject={setHoveredProject}
+            />
           ))}
         </div>
 
@@ -327,5 +265,122 @@ function EducationItem({ title, school, range, desc }) {
         <p className="text-[#8A8375] text-sm leading-relaxed">{desc}</p>
       </div>
     </div>
+  );
+}
+
+function ProjectCardRow({ project, index, onSelect, hoveredProject, setHoveredProject }) {
+  const [expandedMobile, setExpandedMobile] = useState(false);
+
+  const shortDescription =
+    project.description?.length > 70
+      ? project.description.slice(0, 70) + "..."
+      : project.description;
+
+  return (
+    <Reveal width="100%">
+      <div
+        className="group border-b border-black/[0.08] py-7 md:py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-6 hover:bg-black/[0.02] transition duration-300 px-4 md:px-6 cursor-pointer relative overflow-visible"
+        onClick={() => onSelect(project)}
+        onMouseEnter={() => setHoveredProject(project)}
+        onMouseLeave={() => setHoveredProject(null)}
+        data-cursor-label="OPEN"
+      >
+        <div className="text-left z-10 relative pointer-events-none md:pointer-events-auto flex gap-4 md:gap-8 items-baseline w-full md:w-auto">
+          <span className="font-['Fraunces'] italic text-lg md:text-xl text-[#B4AC9C] group-hover:text-[#A9832F] transition-colors duration-300 shrink-0">
+            0{index + 1}
+          </span>
+          <div className="flex-1 min-w-0">
+            <span className="font-['JetBrains_Mono'] text-[10px] font-bold tracking-[0.25em] text-[#A9832F]/80 uppercase mb-2 block group-hover:text-[#A9832F] transition">
+              {project.category}
+            </span>
+            <h3 className="font-['Fraunces'] text-2xl md:text-3xl font-semibold text-[#17150F] group-hover:translate-x-2 transition-transform duration-300">
+              {project.title}
+            </h3>
+
+            {/* Desktop Description */}
+            <p className="hidden md:block text-xs md:text-sm text-[#6F6A60] mt-2 max-w-md">
+              {project.description}
+            </p>
+
+            {/* Mobile Description with Read More / Read Less Toggle */}
+            <div className="md:hidden mt-2 pointer-events-auto">
+              <p className="text-xs text-[#6F6A60]">
+                {expandedMobile ? project.description : shortDescription}
+              </p>
+              {project.description?.length > 70 && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setExpandedMobile(!expandedMobile);
+                  }}
+                  className="text-[#A9832F] text-[11px] font-bold uppercase tracking-wider mt-1.5 inline-block hover:underline"
+                >
+                  {expandedMobile ? "Read Less ▲" : "Read More ▼"}
+                </button>
+              )}
+            </div>
+
+            {/* Mobile Image Thumbnail Preview */}
+            {project.image && (
+              <div className="md:hidden mt-3 w-full max-w-[280px] h-36 rounded-md overflow-hidden border border-black/10 shadow-sm bg-white">
+                <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Desktop Hover Image - Pop-out style */}
+        <AnimatePresence>
+          {hoveredProject === project && project.image && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, y: 100, rotate: -5 }}
+              animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: 100, rotate: -5 }}
+              transition={{ type: "spring", stiffness: 100, damping: 15 }}
+              className="absolute top-1/2 right-[15%] -translate-y-1/2 w-[350px] h-[220px] pointer-events-none z-20 overflow-hidden shadow-2xl hidden md:block rounded-md border border-black/10 bg-white"
+            >
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-full object-contain"
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Action Buttons (GitHub & Demo) */}
+        <div className="flex items-center gap-3 z-30 relative shrink-0 w-full md:w-auto justify-start md:justify-end mt-2 md:mt-0">
+          {Boolean(project.github) && project.github !== "#" && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              aria-label="GitHub repository"
+              className="w-11 h-11 md:w-12 md:h-12 rounded-full border border-black/15 flex items-center justify-center text-[#6F6A60] hover:bg-[#17150F] hover:text-[#D4AF6A] hover:border-[#17150F] transition duration-300 transform group-hover:scale-110 shrink-0 select-none p-0 leading-none"
+            >
+              <div className="flex items-center justify-center w-full h-full leading-none">
+                <FaGithub size={20} className="shrink-0" />
+              </div>
+            </a>
+          )}
+          {Boolean(project.demo) && project.demo !== "#" && (
+            <a
+              href={project.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              aria-label="Live demo"
+              className="w-11 h-11 md:w-12 md:h-12 rounded-full border border-black/15 flex items-center justify-center text-[#6F6A60] hover:bg-[#17150F] hover:text-[#D4AF6A] hover:border-[#17150F] transition duration-300 transform group-hover:scale-110 shrink-0 select-none p-0 leading-none"
+            >
+              <div className="flex items-center justify-center w-full h-full leading-none">
+                <ArrowUpRight size={20} className="shrink-0" />
+              </div>
+            </a>
+          )}
+        </div>
+      </div>
+    </Reveal>
   );
 }

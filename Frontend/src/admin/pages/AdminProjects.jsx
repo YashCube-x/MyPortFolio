@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Plus, Pencil, Trash2, X, ImageOff } from "lucide-react";
+import { Plus, Pencil, Trash2, X, ImageOff, ArrowUp, ArrowDown } from "lucide-react";
 import api from "../../lib/api";
 import FileUploadField from "../components/FileUploadField";
 import { Input, Textarea } from "../components/FormFields";
@@ -18,6 +18,7 @@ const EMPTY_FORM = {
   demo: "",
   image: "",
   imagePublicId: "",
+  order: 0,
 };
 
 export default function AdminProjects() {
@@ -42,7 +43,7 @@ export default function AdminProjects() {
   }, []);
 
   const openCreate = () => {
-    setForm(EMPTY_FORM);
+    setForm({ ...EMPTY_FORM, order: projects.length + 1 });
     setEditingId(null);
     setShowForm(true);
   };
@@ -78,6 +79,28 @@ export default function AdminProjects() {
     await load();
   };
 
+  const handleReorder = async (index, direction) => {
+    const targetIndex = index + direction;
+    if (targetIndex < 0 || targetIndex >= projects.length) return;
+
+    const current = projects[index];
+    const target = projects[targetIndex];
+
+    const currentOrder = current.order || index + 1;
+    const targetOrder = target.order || targetIndex + 1;
+
+    const newCurrentOrder = currentOrder === targetOrder ? targetOrder + direction : targetOrder;
+    const newTargetOrder = currentOrder;
+
+    try {
+      await api.put(`/projects/${current._id}`, { ...current, order: newCurrentOrder });
+      await api.put(`/projects/${target._id}`, { ...target, order: newTargetOrder });
+      await load();
+    } catch (err) {
+      console.error("Reorder error:", err);
+    }
+  };
+
   return (
     <div>
       <div className="flex items-center justify-between mb-8 gap-4 flex-wrap">
@@ -108,6 +131,7 @@ export default function AdminProjects() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input label="Title" value={form.title} onChange={(v) => setForm({ ...form, title: v })} required />
             <Input label="Category" value={form.category} onChange={(v) => setForm({ ...form, category: v })} required />
+            <Input label="Display Order (1, 2, 3...)" type="number" value={form.order} onChange={(v) => setForm({ ...form, order: Number(v) })} />
             <Input label="Type" value={form.type} onChange={(v) => setForm({ ...form, type: v })} />
             <Input label="Client" value={form.client} onChange={(v) => setForm({ ...form, client: v })} />
             <Input label="Duration" value={form.duration} onChange={(v) => setForm({ ...form, duration: v })} />
@@ -120,7 +144,7 @@ export default function AdminProjects() {
           <Textarea label="Description" value={form.description} onChange={(v) => setForm({ ...form, description: v })} required />
 
           <FileUploadField
-            label="Project Image"
+            label="Project Thumbnail / Image (Upload File or Paste Google Drive Link)"
             value={form.image}
             accept="image/*"
             onUploaded={(url, publicId) => setForm({ ...form, image: url, imagePublicId: publicId })}
@@ -142,16 +166,42 @@ export default function AdminProjects() {
         <p className="text-[#5F7876]">Loading...</p>
       ) : view === "list" ? (
         <div className="space-y-3">
-          {projects.map((p) => (
+          {projects.map((p, idx) => (
             <div
               key={p._id}
               className="flex items-center justify-between gap-3 bg-white border-l-[6px] border-[#3CC4BD] rounded-xl p-4 shadow-[0_4px_20px_rgba(43,168,162,0.10)]"
             >
-              <div className="min-w-0 flex-1">
-                <p className="text-[#1E3B3A] font-bold truncate">{p.title}</p>
-                <p className="text-[#5F7876] text-xs font-semibold uppercase tracking-wide truncate">{p.category}</p>
+              <div className="flex items-center gap-3 min-w-0 flex-1">
+                <span className="font-mono text-xs font-bold text-[#1E8C86] bg-[#E8F6F5] px-2.5 py-1 rounded-md shrink-0">
+                  #{idx + 1}
+                </span>
+                {p.image && (
+                  <img src={p.image} alt={p.title} className="w-10 h-10 rounded-md object-cover border shrink-0" />
+                )}
+                <div className="min-w-0 flex-1">
+                  <p className="text-[#1E3B3A] font-bold truncate">{p.title}</p>
+                  <p className="text-[#5F7876] text-xs font-semibold uppercase tracking-wide truncate">{p.category}</p>
+                </div>
               </div>
-              <div className="flex gap-1 shrink-0">
+              <div className="flex items-center gap-1 shrink-0">
+                <button
+                  type="button"
+                  disabled={idx === 0}
+                  onClick={() => handleReorder(idx, -1)}
+                  title="Move Up"
+                  className="p-2 text-[#1E8C86] hover:bg-[#E8F6F5] rounded-full transition disabled:opacity-30 cursor-pointer"
+                >
+                  <ArrowUp size={16} />
+                </button>
+                <button
+                  type="button"
+                  disabled={idx === projects.length - 1}
+                  onClick={() => handleReorder(idx, 1)}
+                  title="Move Down"
+                  className="p-2 text-[#1E8C86] hover:bg-[#E8F6F5] rounded-full transition disabled:opacity-30 cursor-pointer"
+                >
+                  <ArrowDown size={16} />
+                </button>
                 <button onClick={() => openEdit(p)} className="p-2.5 text-[#2BA8A2] hover:bg-[#E8F6F5] rounded-full transition">
                   <Pencil size={16} />
                 </button>
@@ -165,12 +215,15 @@ export default function AdminProjects() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {projects.map((p) => (
+          {projects.map((p, idx) => (
             <div
               key={p._id}
               className="bg-white border-l-[6px] border-[#3CC4BD] rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(43,168,162,0.10)] flex flex-col"
             >
-              <div className="w-full aspect-video bg-[#E8F6F5] flex items-center justify-center overflow-hidden">
+              <div className="w-full aspect-video bg-[#E8F6F5] flex items-center justify-center overflow-hidden relative">
+                <span className="absolute top-2 left-2 font-mono text-xs font-bold text-[#1E8C86] bg-white/90 px-2 py-0.5 rounded shadow">
+                  #{idx + 1}
+                </span>
                 {p.image ? (
                   <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
                 ) : (
