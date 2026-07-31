@@ -19,8 +19,12 @@ export default function Navbar() {
   }, []);
 
   const scrollToSection = (id) => {
-    scrollToId(id);
+    // Lenis is stopped while the mobile menu is open (see effect below); closing
+    // the menu only restarts it on the next render, which is too late for the
+    // scrollToId call below, so restart it explicitly first.
+    window.__lenis?.start();
     setIsMobileMenuOpen(false);
+    scrollToId(id);
   };
 
   useEffect(() => {
